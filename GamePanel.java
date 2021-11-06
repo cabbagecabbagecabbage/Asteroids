@@ -90,8 +90,7 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 			menu.paintMenu(g,mousePosition);
 		}
 		else if(screen == GAME){
-			// g.setColor(new Color(0,0,0));
-			// g.fillRect(0,0,getWidth(), getHeight());
+			
 		}
     }
 }
