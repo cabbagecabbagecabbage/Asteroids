@@ -3,8 +3,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 /*
-Checklist
-menu (buttons,etc)
+menu (title, buttons,etc)
 player
 asteroids
 bullets
@@ -12,6 +11,7 @@ bullets
 unsure:
 should menu be a class if theres only going to be one instance?
 	should the menu only have static fields and methods?
+how to add text? jlabel? drawstring? import image?
 */
 
 public class Asteroids extends JFrame{

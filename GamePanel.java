@@ -11,6 +11,7 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 	private Image backgroundImage = new ImageIcon("background/OuterSpace.jpg").getImage();
 	
 	Menu menu = new Menu();
+	Ship ship = new Ship();
 
 	public GamePanel(){
 		setPreferredSize( new Dimension(800, 600));
@@ -24,7 +25,7 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 
 	//game helper functions
 	public void move(){
-		
+		ship.move(keys);
 	}
 	//end
 
@@ -90,7 +91,7 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 			menu.paintMenu(g,mousePosition);
 		}
 		else if(screen == GAME){
-			
+			ship.draw(g);
 		}
     }
 }

@@ -3,7 +3,9 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class Menu {
-	//buttons
+	/*
+	to do: add title
+	*/
 	private Button playButton, playButtonHovered;
 
 	public Menu(){

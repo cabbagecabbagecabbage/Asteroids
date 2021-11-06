@@ -3,6 +3,9 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class Button{
+	/*
+	to do: add text to buttons
+	*/
 	private Rectangle buttonRect = new Rectangle(0,0,0,0);
 	private Image buttonImage;
 
