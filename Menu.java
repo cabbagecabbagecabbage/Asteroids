@@ -7,8 +7,8 @@ public class Menu {
 	private Button playButton, playButtonHovered;
 
 	public Menu(){
-		playButton = new Button(350,300,100,50,"buttons/button.png","Play");
-		playButtonHovered = new Button(350,300,100,50,"buttons/buttonHovered.png","Play");
+		playButton = new Button(350,300,100,50,"buttons/button.png");
+		playButtonHovered = new Button(350,300,100,50,"buttons/buttonHovered.png");
 	}
 
 	public void paintMenu(Graphics g, Point mousePosition){
