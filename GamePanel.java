@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.util.LinkedList;
 
 class GamePanel extends JPanel implements KeyListener, ActionListener, MouseListener{
 	public static final int MENU=0, GAME=1, END=2;
@@ -9,12 +10,19 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 	private boolean []keys = new boolean[KeyEvent.KEY_LAST+1];
 	private Timer timer;
 	private Image backgroundImage = new ImageIcon("background/OuterSpace.jpg").getImage();
+
+	public static int width, height;
 	
-	Menu menu = new Menu();
-	Ship ship = new Ship();
+	public static Menu menu = new Menu();
+	public static Ship ship = new Ship();
+
+	public static LinkedList<Bullet> bullets = new LinkedList<Bullet>();
+
 
 	public GamePanel(){
 		setPreferredSize( new Dimension(800, 600));
+		width = 800;
+		height = 600;
         addKeyListener(this);
         addMouseListener(this);
 		timer = new Timer(10, this);
@@ -23,11 +31,16 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 		timer.start();
 	}
 
-	//game helper functions
 	public void move(){
 		ship.move(keys);
+		//move bullets;
+		for (int i = bullets.size()-1; i >= 0; --i){
+			bullets.get(i).move();
+			if (bullets.get(i).outOfBounds()){
+				bullets.remove(i);
+			}
+		}
 	}
-	//end
 
 	//update variables when action is performed
 	public void update(){
@@ -77,12 +90,16 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 			}	
 		}
 		else if(screen == GAME){
-			//shoot bullets
+			ship.shooting = true;
 		}	
 	}
 
 	@Override
-	public void	mouseReleased(MouseEvent event){}
+	public void	mouseReleased(MouseEvent event){
+		if (screen == GAME){
+			ship.shooting = false;
+		}
+	}
 
 	@Override
 	public void paint(Graphics g){
@@ -92,6 +109,9 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 		}
 		else if(screen == GAME){
 			ship.draw(g);
+			for (int i = bullets.size()-1; i >= 0; --i){
+				bullets.get(i).draw(g);
+			}
 		}
     }
 }
