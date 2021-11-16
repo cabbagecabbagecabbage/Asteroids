@@ -1,7 +1,6 @@
 import java.awt.*;
 
 public class Bullet {
-	//to be fixed: not firing going up or left
 	private int x,y;
 	private int radius = 2;
 
@@ -18,8 +17,11 @@ public class Bullet {
 		this.vy = Math.sin(angle) * scalar;
 	}
 
+	public int getx(){ return x; }
+	public int gety(){ return y; }
+	
 	public boolean outOfBounds(){
-		return (x < -radius || x > GamePanel.width + radius || y < -radius || y > GamePanel.height + radius);
+		return (x < -radius || x > GamePanel.WIDTH + radius || y < -radius || y > GamePanel.HEIGHT + radius);
 	}
 
 	public void move(){
@@ -28,7 +30,7 @@ public class Bullet {
 	}
 
 	public void draw(Graphics g){
-		g.setColor(Color.RED);
+		g.setColor(Color.YELLOW);
 		g.fillOval(x-radius, y-radius, 2*radius, 2*radius);
 	}
 }

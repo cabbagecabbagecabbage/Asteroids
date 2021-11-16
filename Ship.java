@@ -6,7 +6,7 @@ public class Ship {
 	to do: 
 	*/
 	private int posx, posy;
-	private double angle = Math.PI / 2; //radians
+	private double angle = 0; //radians
 	private final double halfTipAngle = 0.32175;
 	private final double sideLength = 32.0;
 	private final int npoints = 3;
@@ -16,7 +16,9 @@ public class Ship {
 
 	public boolean shooting = false;
 	public double lastShot = System.nanoTime();
-	public double interval = 100_000_000; //milliseconds
+	public final double interval = 100_000_000; //milliseconds
+
+	private int score = 0;
 
 	public Ship(){
 		ship = new Polygon();
@@ -30,16 +32,16 @@ public class Ship {
 
 	public void move(boolean[] keys){
 		final double accel = 0.6;
-		if(keys[KeyEvent.VK_RIGHT]){
+		if(keys[KeyEvent.VK_D]){
 			vx += accel;
 		}
-		if(keys[KeyEvent.VK_LEFT]){
+		if(keys[KeyEvent.VK_A]){
 			vx -= accel;
 		}
-		if(keys[KeyEvent.VK_UP]){
+		if(keys[KeyEvent.VK_W]){
 			vy -= accel;
 		}
-		if(keys[KeyEvent.VK_DOWN]){
+		if(keys[KeyEvent.VK_S]){
 			vy += accel;
 		}
 		vx *= 0.93;
@@ -62,6 +64,23 @@ public class Ship {
 				lastShot = System.nanoTime();
 			}
 		}
+	}
+
+	public Point[] getPoints(){
+		Point[] points = new Point[ship.npoints];
+		for (int i = 0; i < ship.npoints; ++i){
+			points[i] = new Point(ship.xpoints[i],ship.ypoints[i]);
+		}
+		return points;
+	}
+
+	public void addScore(int increment){
+		score += increment;
+		System.out.println(score);
+	}
+
+	public int getScore(){
+		return score;
 	}
 
 	public void draw(Graphics g){
