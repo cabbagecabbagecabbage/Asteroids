@@ -23,6 +23,10 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 	private double lastAsteroidGen = System.nanoTime();
 	private final double asteroidGenInterval = 300_000_000; //milliseconds
 
+	public static Font f = new Font("Dialog", Font.PLAIN, 18);
+
+	private int playerScore;
+
 	public GamePanel(){
 		setPreferredSize( new Dimension(WIDTH, HEIGHT));
         addKeyListener(this);
@@ -62,6 +66,7 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 		screen = ENDSCREEN;
 		bullets.clear();
 		asteroids.clear();
+		playerScore = ship.getScore();
 		ship = new Ship();
 	}
 
@@ -183,9 +188,12 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 			for (int i = 0; i < asteroids.size(); ++i){
 				asteroids.get(i).draw(g);
 			}
+			g.setFont(f);
+			g.setColor(Color.WHITE);
+			g.drawString("Score: "+ship.getScore(),15,25);
 		}
 		else if (screen == ENDSCREEN){
-			endscreen.paintMenu(g,mousePosition);
+			endscreen.paintMenu(g,mousePosition,playerScore);
 		}
     }
 }

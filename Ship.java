@@ -1,16 +1,20 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
 
 public class Ship {
 	/*
 	to do: 
 	*/
-	private int posx, posy;
+	private double posx = 400, posy = 300;
 	private double angle = 0; //radians
 	private final double halfTipAngle = 0.32175;
 	private final double sideLength = 32.0;
 	private final int npoints = 3;
 	private Polygon ship;
+	//maintain arrays of double coordinates to maintain accuracy
+	ArrayList<Double> xpointsDouble = new ArrayList<Double>();
+	ArrayList<Double> ypointsDouble = new ArrayList<Double>();
 
 	private double vx = 0, vy = 0;
 
@@ -22,16 +26,30 @@ public class Ship {
 
 	public Ship(){
 		ship = new Polygon();
-		ship.addPoint(400,290);
+		xpointsDouble.add(posx + Math.cos(angle)*sideLength/4);
+		ypointsDouble.add(posy - Math.sin(angle)*sideLength/4);
+		ship.addPoint(
+			(int) Math.round(xpointsDouble.get(0)),
+			(int) Math.round(ypointsDouble.get(0))
+		);
 		double invAngle = angle - Math.PI;
-		ship.addPoint(	400 + (int)(Math.cos(invAngle+halfTipAngle)*sideLength),
-						290 - (int) (Math.sin(invAngle+halfTipAngle)*sideLength));
-		ship.addPoint(	400 + (int)(Math.cos(invAngle-halfTipAngle)*sideLength),
-						290 - (int) (Math.sin(invAngle-halfTipAngle)*sideLength));
+		xpointsDouble.add(posx + Math.cos(invAngle+halfTipAngle)*sideLength);
+		ypointsDouble.add(posy - Math.sin(invAngle+halfTipAngle)*sideLength);
+		ship.addPoint(
+			(int) Math.round(xpointsDouble.get(1)),
+			(int) Math.round(ypointsDouble.get(1))
+		);
+		xpointsDouble.add(posx + Math.cos(invAngle-halfTipAngle)*sideLength);
+		ypointsDouble.add(posy - Math.sin(invAngle-halfTipAngle)*sideLength);
+		ship.addPoint(
+			(int) Math.round(xpointsDouble.get(2)), 
+			(int) Math.round(ypointsDouble.get(2))
+		);
 	}
 
 	public void move(boolean[] keys){
-		final double accel = 0.6;
+		final double accel = 0.6, decel = 0.93;
+		//change v based on key press
 		if(keys[KeyEvent.VK_D]){
 			vx += accel;
 		}
@@ -44,19 +62,36 @@ public class Ship {
 		if(keys[KeyEvent.VK_S]){
 			vy += accel;
 		}
-		vx *= 0.93;
-		vy *= 0.93;
+		//decelerate
+		vx *= decel;
+		vy *= decel;
 
 		//rotate
+		//find the angle we face using inverse tangent
 		angle = Math.atan2(vy,vx);
-		ship.xpoints[0] += (Math.abs(vx) > 1 ? vx : 0);
-		ship.ypoints[0] += (Math.abs(vy) > 1 ? vy : 0);
-		double invAngle = angle - Math.PI;
-		ship.xpoints[1] = ship.xpoints[0] + (int) (Math.cos(invAngle+halfTipAngle)*sideLength);
-		ship.ypoints[1] = ship.ypoints[0] + (int) (Math.sin(invAngle+halfTipAngle)*sideLength);
+		posx += vx;
+		posy += vy;
 
-		ship.xpoints[2] = ship.xpoints[0] + (int) (Math.cos(invAngle-halfTipAngle)*sideLength);
-		ship.ypoints[2] = ship.ypoints[0] + (int) (Math.sin(invAngle-halfTipAngle)*sideLength);
+		//for each point, obtain the double that it should be, then round to get the lattice coordinates
+		xpointsDouble.set(0,posx + Math.cos(angle)*sideLength/4);
+		ypointsDouble.set(0,posy + Math.sin(angle)*sideLength/4);
+
+		ship.xpoints[0] = (int) Math.round(xpointsDouble.get(0));
+		ship.ypoints[0] = (int) Math.round(ypointsDouble.get(0));
+
+		double invAngle = angle - Math.PI;
+
+		xpointsDouble.set(1,posx + Math.cos(invAngle+halfTipAngle)*sideLength);
+		ypointsDouble.set(1,posy + Math.sin(invAngle+halfTipAngle)*sideLength);
+
+		ship.xpoints[1] = (int) Math.round(xpointsDouble.get(1));
+		ship.ypoints[1] = (int) Math.round(ypointsDouble.get(1));
+
+		xpointsDouble.set(2,posx + Math.cos(invAngle-halfTipAngle)*sideLength);
+		ypointsDouble.set(2,posy + Math.sin(invAngle-halfTipAngle)*sideLength);
+
+		ship.xpoints[2] = (int) Math.round(xpointsDouble.get(2));
+		ship.ypoints[2] = (int) Math.round(ypointsDouble.get(2));
 
 		if (shooting){
 			if (lastShot + interval < System.nanoTime()){
@@ -76,7 +111,6 @@ public class Ship {
 
 	public void addScore(int increment){
 		score += increment;
-		System.out.println(score);
 	}
 
 	public int getScore(){

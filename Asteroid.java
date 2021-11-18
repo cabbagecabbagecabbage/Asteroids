@@ -1,16 +1,10 @@
 import java.awt.*;
 import java.util.Random;
+import java.util.ArrayList;
 
 public class Asteroid {
 	/*
 	to do:
-	generate random polygon by generating (r,theta) pairs
-	big asteroids move slow
-	collision with bullet
-	turn into small asteroids
-	small asteroids move fast
-
-	always detect asteroid collision with player
 	*/
 
 
@@ -19,6 +13,9 @@ public class Asteroid {
 	private static Random rand = new Random();
 
 	private Polygon asteroid = new Polygon();
+	//maintain arrays of double coordinates to prevent distortion
+	ArrayList<Double> xpointsDouble = new ArrayList<Double>();
+	ArrayList<Double> ypointsDouble = new ArrayList<Double>();
 
 	//location of center
 	private int x,y;
@@ -30,6 +27,7 @@ public class Asteroid {
 	private int dx,dy;
 	private double speed;
 	private double angle;
+	private static final double rotateAngle = Math.PI / 108;
 
 	//other properties
 	private boolean dead = false;
@@ -41,7 +39,7 @@ public class Asteroid {
 		this.type = BIG;
 
 		size = 32;
-		speed = 3;
+		speed = 2;
 
 		//generate location outside the screen (casework)
 		int startLocationCase = rand.nextInt(4);
@@ -87,11 +85,11 @@ public class Asteroid {
 		//initialize properties based on type
 		if (type == MID){
 			size = 16;
-			speed = 6;
+			speed = 4;
 		}
 		else if (type == SMALL){
 			size = 8;
-			speed = 9;
+			speed = 6;
 		}
 
 		//generate angle
@@ -109,7 +107,9 @@ public class Asteroid {
 		double genAngle = 0;
 		while (genAngle < Math.PI * 2){
 			genAngle += Math.PI / 3 * rand.nextDouble() * Math.PI / 3;
-			asteroid.addPoint(x + (int) (Math.cos(genAngle)*size),y + (int) (Math.sin(genAngle)*size));
+			asteroid.addPoint(x + (int) Math.round(Math.cos(genAngle)*size),y + (int) Math.round(Math.sin(genAngle)*size));
+			xpointsDouble.add(x + Math.cos(genAngle)*size);
+			ypointsDouble.add(y + Math.sin(genAngle)*size);
 		}
 	}
 
@@ -121,11 +121,22 @@ public class Asteroid {
 
 	public void move(){
 		x += dx; y += dy;
-		for (int i = 0; i < asteroid.xpoints.length; ++i){
+		for (int i = 0; i < asteroid.npoints; ++i){
 			asteroid.xpoints[i] += dx;
 			asteroid.ypoints[i] += dy;
+			xpointsDouble.set(i,xpointsDouble.get(i) + dx);
+			ypointsDouble.set(i,ypointsDouble.get(i) + dy);
 		}
-		asteroid = new Polygon(asteroid.xpoints,asteroid.ypoints,asteroid.npoints); //wont work unless a new one is created; hypothesis: modifying xpoints and ypoints does not move the actual polygon (but drawing somehow does not present this behaviour, only .contains())
+		for (int i = 0; i < asteroid.npoints; ++i){
+			double newx = xpointsDouble.get(i)-x, newy = (ypointsDouble.get(i)-y);
+			double angle = Math.atan2(newy,newx)+rotateAngle;
+			double magnitude = Math.sqrt(newx*newx+newy*newy);
+			xpointsDouble.set(i,magnitude*Math.cos(angle) + x);
+			ypointsDouble.set(i,magnitude*Math.sin(angle) + y);
+			asteroid.xpoints[i] = (int) Math.round(xpointsDouble.get(i));
+			asteroid.ypoints[i] = (int) Math.round(ypointsDouble.get(i));
+		}
+		asteroid = new Polygon(asteroid.xpoints,asteroid.ypoints,asteroid.npoints); //collisions wont work unless a new one is created; hypothesis: modifying xpoints and ypoints does not move the actual polygon (but .draw() somehow does not present this behaviour, only .contains())
 	}
 
 	public void draw(Graphics g){
