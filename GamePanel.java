@@ -23,7 +23,7 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 	private double lastAsteroidGen = System.nanoTime();
 	private final double asteroidGenInterval = 300_000_000; //milliseconds
 
-	public static Font f = new Font("Dialog", Font.PLAIN, 18);
+	public static Font f = new Font("Berlin Sans FB", Font.PLAIN, 18);
 
 	private int playerScore;
 
@@ -63,11 +63,9 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 	}
 
 	private void resetGame(){
-		screen = ENDSCREEN;
 		bullets.clear();
 		asteroids.clear();
 		playerScore = ship.getScore();
-		ship = new Ship();
 	}
 
 	public boolean checkCollisions(){
@@ -76,6 +74,8 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 			for (Point p: ship.getPoints()){
 				if (asteroids.get(i).contains(p)){
 					resetGame();
+					screen = ENDSCREEN;
+					ship = new Ship();
 					return true;
 				}
 			}
@@ -153,7 +153,7 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 	@Override
 	public void	mousePressed(MouseEvent event){
 		if(screen == MENU){
-			if (menu.hoverPlay(mousePosition)){
+			if (menu.playButton.hovered(mousePosition)){
 				screen = GAME;
 			}	
 		}
@@ -161,7 +161,7 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 			ship.shooting = true;
 		}
 		else if (screen == ENDSCREEN){
-			if (endscreen.hoverRetry(mousePosition)){
+			if (endscreen.playButton.hovered(mousePosition)){
 				screen = GAME;
 			}	
 		}
@@ -178,7 +178,7 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 	public void paint(Graphics g){
 		g.drawImage(backgroundImage,0,0,getWidth(),getHeight(),null);
 		if(screen == MENU){
-			menu.paintMenu(g,mousePosition);
+			menu.draw(g,mousePosition);
 		}
 		else if(screen == GAME){
 			ship.draw(g);
@@ -193,7 +193,7 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 			g.drawString("Score: "+ship.getScore(),15,25);
 		}
 		else if (screen == ENDSCREEN){
-			endscreen.paintMenu(g,mousePosition,playerScore);
+			endscreen.draw(g,mousePosition,playerScore);
 		}
     }
 }

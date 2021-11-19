@@ -16,16 +16,12 @@ fading text of level 1 and level 2
 make player not go off screen
 instruction
 text
+reconsider where each method should be
 score
 levels
 sound effects
 add powerups
-
-
-how the game works:
-clicking play sends you to level 1
-WASD to move, click/hold to shoot bullets
-once you reach 100 points, you proceed automatically to level 2 which has faster asteroids
+make asteroids nicer
 */
 
 public class Asteroids extends JFrame{

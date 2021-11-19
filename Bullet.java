@@ -30,7 +30,7 @@ public class Bullet {
 	}
 
 	public void draw(Graphics g){
-		g.setColor(Color.YELLOW);
+		g.setColor(Color.RED);
 		g.fillOval(x-radius, y-radius, 2*radius, 2*radius);
 	}
 }

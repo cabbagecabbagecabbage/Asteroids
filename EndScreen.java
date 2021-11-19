@@ -6,26 +6,25 @@ public class EndScreen {
 	/*
 	to do: add title
 	*/
-	private Button retryButton, retryButtonHovered;
+	public Button playButton, playButtonHovered;
+	private Image title = new ImageIcon("text/title.png").getImage();
 
 	public EndScreen(){
-		retryButton = new Button(350,300,100,50,"buttons/button.png");
-		retryButtonHovered = new Button(350,300,100,50,"buttons/buttonHovered.png");
+		playButton = new Button(350,270,100,50);
 	}
 
-	public void paintMenu(Graphics g, Point mousePosition, int playerScore){
-		if (hoverRetry(mousePosition)){
-			retryButtonHovered.draw(g);
-		}
-		else {
-			retryButton.draw(g);
-		}
+	public void draw(Graphics g, Point mousePosition, int playerScore){
+		g.drawImage(title,280,100,240,72,null);
+
+		//play
+		playButton.draw(g,mousePosition);
+		g.setColor(Color.WHITE);
+		g.setFont(GamePanel.f);
+		g.drawString("Play",383,300);
+
+		//score
 		g.setFont(GamePanel.f);
 		g.setColor(Color.WHITE);
 		g.drawString("Your Score: "+playerScore,15,25);
-	}
-
-	public boolean hoverRetry(Point mousePosition){
-		return retryButton.contains(mousePosition);
 	}
 }

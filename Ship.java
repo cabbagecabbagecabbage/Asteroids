@@ -27,20 +27,20 @@ public class Ship {
 	public Ship(){
 		ship = new Polygon();
 		xpointsDouble.add(posx + Math.cos(angle)*sideLength/4);
-		ypointsDouble.add(posy - Math.sin(angle)*sideLength/4);
+		ypointsDouble.add(posy + Math.sin(angle)*sideLength/4);
 		ship.addPoint(
 			(int) Math.round(xpointsDouble.get(0)),
 			(int) Math.round(ypointsDouble.get(0))
 		);
 		double invAngle = angle - Math.PI;
 		xpointsDouble.add(posx + Math.cos(invAngle+halfTipAngle)*sideLength);
-		ypointsDouble.add(posy - Math.sin(invAngle+halfTipAngle)*sideLength);
+		ypointsDouble.add(posy + Math.sin(invAngle+halfTipAngle)*sideLength);
 		ship.addPoint(
 			(int) Math.round(xpointsDouble.get(1)),
 			(int) Math.round(ypointsDouble.get(1))
 		);
 		xpointsDouble.add(posx + Math.cos(invAngle-halfTipAngle)*sideLength);
-		ypointsDouble.add(posy - Math.sin(invAngle-halfTipAngle)*sideLength);
+		ypointsDouble.add(posy + Math.sin(invAngle-halfTipAngle)*sideLength);
 		ship.addPoint(
 			(int) Math.round(xpointsDouble.get(2)), 
 			(int) Math.round(ypointsDouble.get(2))
@@ -51,24 +51,23 @@ public class Ship {
 		final double accel = 0.6, decel = 0.93;
 		//change v based on key press
 		if(keys[KeyEvent.VK_D]){
-			vx += accel;
+			angle += Math.PI / 24;
 		}
 		if(keys[KeyEvent.VK_A]){
-			vx -= accel;
+			angle -= Math.PI / 24;
 		}
 		if(keys[KeyEvent.VK_W]){
-			vy -= accel;
+			vx += accel*Math.cos(angle);
+			vy += accel*Math.sin(angle);
 		}
 		if(keys[KeyEvent.VK_S]){
-			vy += accel;
+			// vy += accel;
 		}
-		//decelerate
 		vx *= decel;
 		vy *= decel;
+		
 
 		//rotate
-		//find the angle we face using inverse tangent
-		angle = Math.atan2(vy,vx);
 		posx += vx;
 		posy += vy;
 
@@ -118,7 +117,9 @@ public class Ship {
 	}
 
 	public void draw(Graphics g){
-		g.setColor(Color.WHITE);
+		g.setColor(Color.ORANGE);
+		g.fillOval((ship.xpoints[1]+ship.xpoints[2])/2-5, (ship.ypoints[1]+ship.ypoints[2])/2-5, 10, 10);
+		g.setColor(Color.GREEN);
 		g.fillPolygon(ship);
 	}
 }
