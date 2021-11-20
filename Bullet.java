@@ -7,7 +7,7 @@ public class Bullet {
 	//movement
 	private double vx, vy;
 	private double angle;
-	private final double scalar = 10;
+	private final double scalar = 8;
 
 	public Bullet (int x, int y, double angle){
 		this.x = x;

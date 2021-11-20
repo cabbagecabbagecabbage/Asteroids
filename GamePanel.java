@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 class GamePanel extends JPanel implements KeyListener, ActionListener, MouseListener{
 	public static final int MENU=0, GAME=1, ENDSCREEN=2;
+	public static int level = 1;
 	private int screen = MENU;
 	private Point mousePosition;
 	private boolean []keys = new boolean[KeyEvent.KEY_LAST+1];
@@ -21,11 +22,11 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 
 	public static LinkedList<Asteroid> asteroids = new LinkedList<Asteroid>();
 	private double lastAsteroidGen = System.nanoTime();
-	private final double asteroidGenInterval = 300_000_000; //milliseconds
+	private final double asteroidGenInterval = 500_000_000; //milliseconds
 
 	public static Font f = new Font("Berlin Sans FB", Font.PLAIN, 18);
 
-	private int playerScore;
+	private int playerScore, prevPlayerScore;
 
 	public GamePanel(){
 		setPreferredSize( new Dimension(WIDTH, HEIGHT));
@@ -38,7 +39,7 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 	}
 	
 	private void genAsteroid(){
-		if (System.nanoTime() - lastAsteroidGen > asteroidGenInterval){
+		if (System.nanoTime() - lastAsteroidGen > asteroidGenInterval / level){
 			asteroids.add(new Asteroid());
 			lastAsteroidGen = System.nanoTime();
 		}
@@ -65,7 +66,7 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 	private void resetGame(){
 		bullets.clear();
 		asteroids.clear();
-		playerScore = ship.getScore();
+		ship = new Ship();
 	}
 
 	public boolean checkCollisions(){
@@ -75,7 +76,8 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 				if (asteroids.get(i).contains(p)){
 					resetGame();
 					screen = ENDSCREEN;
-					ship = new Ship();
+					prevPlayerScore = playerScore;
+					playerScore = 0;
 					return true;
 				}
 			}
@@ -85,7 +87,7 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 		for (int i = 0; i < asteroids.size(); ++i){
 			for (int j = 0; j < bullets.size(); ++j){
 				if (asteroids.get(i).isHitBy(bullets.get(j))){
-					ship.addScore(asteroids.get(i).getType()*5+5);
+					playerScore += asteroids.get(i).getType()*5+5;
 					if (asteroids.get(i).getType() != Asteroid.SMALL){
 						//break down into 2 smaller asteroids
 						//spawn at contact point
@@ -113,8 +115,15 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 		mousePosition.translate(-offset.x, -offset.y);
 		if(screen == GAME){
 			if(checkCollisions()){
+				level = 1;
 				return;
 			}
+			if (playerScore >= 100*level){
+				++level;
+				resetGame();
+
+			}
+
 			move();
 			genAsteroid();
 		}
@@ -190,10 +199,11 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 			}
 			g.setFont(f);
 			g.setColor(Color.WHITE);
-			g.drawString("Score: "+ship.getScore(),15,25);
+			g.drawString("Score: "+ playerScore,15,25);
+			g.drawString("Level "+ level,740,25);
 		}
 		else if (screen == ENDSCREEN){
-			endscreen.draw(g,mousePosition,playerScore);
+			endscreen.draw(g,mousePosition,prevPlayerScore);
 		}
     }
 }

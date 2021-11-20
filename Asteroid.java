@@ -39,7 +39,7 @@ public class Asteroid {
 		this.type = BIG;
 
 		size = 32;
-		speed = 2;
+		speed = 2*Math.pow(1.3,GamePanel.level);
 
 		//generate location outside the screen (casework)
 		int startLocationCase = rand.nextInt(4);
@@ -85,11 +85,11 @@ public class Asteroid {
 		//initialize properties based on type
 		if (type == MID){
 			size = 16;
-			speed = 4;
+			speed = 4*Math.pow(1.3,GamePanel.level);;
 		}
 		else if (type == SMALL){
 			size = 8;
-			speed = 6;
+			speed = 6*Math.pow(1.3,GamePanel.level);;
 		}
 
 		//generate angle

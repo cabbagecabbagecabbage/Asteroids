@@ -8,8 +8,9 @@ public class Ship {
 	*/
 	private double posx = 400, posy = 300;
 	private double angle = 0; //radians
-	private final double halfTipAngle = 0.32175;
-	private final double sideLength = 32.0;
+	private final double rotateAngle = Math.PI / 48;
+	private final double halfTipAngle = Math.PI / 6;
+	private final double sideLength = 20.0;
 	private final int npoints = 3;
 	private Polygon ship;
 	//maintain arrays of double coordinates to maintain accuracy
@@ -22,12 +23,10 @@ public class Ship {
 	public double lastShot = System.nanoTime();
 	public final double interval = 100_000_000; //milliseconds
 
-	private int score = 0;
-
 	public Ship(){
 		ship = new Polygon();
-		xpointsDouble.add(posx + Math.cos(angle)*sideLength/4);
-		ypointsDouble.add(posy + Math.sin(angle)*sideLength/4);
+		xpointsDouble.add(posx + Math.cos(angle)*sideLength);
+		ypointsDouble.add(posy + Math.sin(angle)*sideLength);
 		ship.addPoint(
 			(int) Math.round(xpointsDouble.get(0)),
 			(int) Math.round(ypointsDouble.get(0))
@@ -51,10 +50,10 @@ public class Ship {
 		final double accel = 0.6, decel = 0.93;
 		//change v based on key press
 		if(keys[KeyEvent.VK_D]){
-			angle += Math.PI / 24;
+			angle += rotateAngle;
 		}
 		if(keys[KeyEvent.VK_A]){
-			angle -= Math.PI / 24;
+			angle -= rotateAngle;
 		}
 		if(keys[KeyEvent.VK_W]){
 			vx += accel*Math.cos(angle);
@@ -72,8 +71,8 @@ public class Ship {
 		posy += vy;
 
 		//for each point, obtain the double that it should be, then round to get the lattice coordinates
-		xpointsDouble.set(0,posx + Math.cos(angle)*sideLength/4);
-		ypointsDouble.set(0,posy + Math.sin(angle)*sideLength/4);
+		xpointsDouble.set(0,posx + Math.cos(angle)*sideLength);
+		ypointsDouble.set(0,posy + Math.sin(angle)*sideLength);
 
 		ship.xpoints[0] = (int) Math.round(xpointsDouble.get(0));
 		ship.ypoints[0] = (int) Math.round(ypointsDouble.get(0));
@@ -108,16 +107,8 @@ public class Ship {
 		return points;
 	}
 
-	public void addScore(int increment){
-		score += increment;
-	}
-
-	public int getScore(){
-		return score;
-	}
-
 	public void draw(Graphics g){
-		g.setColor(Color.ORANGE);
+		g.setColor(Color.RED);
 		g.fillOval((ship.xpoints[1]+ship.xpoints[2])/2-5, (ship.ypoints[1]+ship.ypoints[2])/2-5, 10, 10);
 		g.setColor(Color.GREEN);
 		g.fillPolygon(ship);
