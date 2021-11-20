@@ -8,11 +8,8 @@ player
 asteroids
 bullets
 
-unsure:
-how to add text? jlabel? drawstring? import image?
-
 consider:
-fading text of level 1 and level 2
+tweek some speed values
 only 2 levels
 waves of asteroids
 wrap

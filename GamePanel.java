@@ -7,7 +7,7 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 	public static final int MENU=0, GAME=1, ENDSCREEN=2;
 	public static int level = 1;
 	private int screen = MENU;
-	private Point mousePosition;
+	private Point mousePosition = new Point();
 	private boolean []keys = new boolean[KeyEvent.KEY_LAST+1];
 	private Timer timer;
 	private Image backgroundImage = new ImageIcon("background/OuterSpace.jpg").getImage();
@@ -45,7 +45,7 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 		}
 	}
 
-	public void move(){
+	public void moveObjects(){
 		ship.move(keys);
 		//move bullets;
 		for (int i = bullets.size()-1; i >= 0; --i){
@@ -70,7 +70,7 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 	}
 
 	public boolean checkCollisions(){
-		//check player - asteroid collision
+		//check player - asteroid collision, returns true if collided
 		for (int i = 0; i < asteroids.size(); ++i){
 			for (Point p: ship.getPoints()){
 				if (asteroids.get(i).contains(p)){
@@ -124,7 +124,7 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 
 			}
 
-			move();
+			moveObjects();
 			genAsteroid();
 		}
 	}

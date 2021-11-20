@@ -8,7 +8,7 @@ public class Ship {
 	*/
 	private double posx = 400, posy = 300;
 	private double angle = 0; //radians
-	private final double rotateAngle = Math.PI / 48;
+	private final double rotateAngle = Math.PI / 36;
 	private final double halfTipAngle = Math.PI / 6;
 	private final double sideLength = 20.0;
 	private final int npoints = 3;
@@ -47,7 +47,7 @@ public class Ship {
 	}
 
 	public void move(boolean[] keys){
-		final double accel = 0.6, decel = 0.93;
+		final double accel = 0.5, decel = 0.90;
 		//change v based on key press
 		if(keys[KeyEvent.VK_D]){
 			angle += rotateAngle;
