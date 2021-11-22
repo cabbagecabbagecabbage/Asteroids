@@ -13,7 +13,7 @@ public class EndScreen {
 		playButton = new Button(350,270,100,50);
 	}
 
-	public void draw(Graphics g, Point mousePosition, int playerScore){
+	public void draw(Graphics g, Point mousePosition){
 		g.drawImage(title,280,100,240,72,null);
 
 		//play
@@ -22,9 +22,9 @@ public class EndScreen {
 		g.setFont(GamePanel.f);
 		g.drawString("Play",383,300);
 
-		//score
-		g.setFont(GamePanel.f);
-		g.setColor(Color.WHITE);
-		g.drawString("Your Score: "+playerScore,15,25);
+//		//score
+//		g.setFont(GamePanel.f);
+//		g.setColor(Color.WHITE);
+//		g.drawString("Your Score: "+playerScore,15,25);
 	}
 }

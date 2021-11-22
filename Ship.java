@@ -19,7 +19,7 @@ public class Ship {
 
 	private double vx = 0, vy = 0;
 
-	public boolean shooting = false;
+	public boolean canShoot = false;
 	public double lastShot = System.nanoTime();
 	public final double interval = 100_000_000; //milliseconds
 
@@ -47,7 +47,7 @@ public class Ship {
 	}
 
 	public void move(boolean[] keys){
-		final double accel = 0.5, decel = 0.90;
+		final double accel = 0.5, decel = 0.93;
 		//change v based on key press
 		if(keys[KeyEvent.VK_D]){
 			angle += rotateAngle;
@@ -91,19 +91,51 @@ public class Ship {
 		ship.xpoints[2] = (int) Math.round(xpointsDouble.get(2));
 		ship.ypoints[2] = (int) Math.round(ypointsDouble.get(2));
 
-		if (shooting){
+		if (posx < -sideLength){
+			for (int i = 0; i < ship.npoints; ++i) {
+				xpointsDouble.set(i, xpointsDouble.get(i) + GamePanel.WIDTH + sideLength);
+				ship.xpoints[i] = (int) Math.round(xpointsDouble.get(i));
+			}
+			posx += GamePanel.WIDTH + sideLength;
+		}
+		if (posx > GamePanel.WIDTH + sideLength){
+			for (int i = 0; i < ship.npoints; ++i) {
+				xpointsDouble.set(i, xpointsDouble.get(i) - GamePanel.WIDTH - sideLength);
+				ship.xpoints[i] = (int) Math.round(xpointsDouble.get(i));
+			}
+			posx -= GamePanel.WIDTH + sideLength;
+		}
+		if (posy < -sideLength){
+			for (int i = 0; i < ship.npoints; ++i) {
+				ypointsDouble.set(i, ypointsDouble.get(i) + GamePanel.HEIGHT + sideLength);
+				ship.ypoints[i] = (int) Math.round(ypointsDouble.get(i));
+			}
+			posy += GamePanel.HEIGHT + sideLength;
+		}
+		if (posy > GamePanel.HEIGHT + sideLength){
+			for (int i = 0; i < ship.npoints; ++i) {
+				ypointsDouble.set(i, ypointsDouble.get(i) - GamePanel.HEIGHT - sideLength);
+				ship.ypoints[i] = (int) Math.round(ypointsDouble.get(i));
+			}
+			posy -= GamePanel.HEIGHT + sideLength;
+		}
+
+		//shoot bullets
+		if (canShoot){
 			if (lastShot + interval < System.nanoTime()){
 				GamePanel.bullets.add(new Bullet(ship.xpoints[0],ship.ypoints[0],angle));
 				lastShot = System.nanoTime();
+				canShoot = false;
 			}
 		}
 	}
 
 	public Point[] getPoints(){
-		Point[] points = new Point[ship.npoints];
+		Point[] points = new Point[ship.npoints+1];
 		for (int i = 0; i < ship.npoints; ++i){
 			points[i] = new Point(ship.xpoints[i],ship.ypoints[i]);
 		}
+		points[ship.npoints] = new Point((int) posx, (int) posy);
 		return points;
 	}
 

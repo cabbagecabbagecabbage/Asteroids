@@ -23,10 +23,12 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 	public static LinkedList<Asteroid> asteroids = new LinkedList<Asteroid>();
 	private double lastAsteroidGen = System.nanoTime();
 	private final double asteroidGenInterval = 500_000_000; //milliseconds
+	private int curAsteroidCount = 0;
+	private final int asteroidsPerLevel = 2;
 
 	public static Font f = new Font("Berlin Sans FB", Font.PLAIN, 18);
 
-	private int playerScore, prevPlayerScore;
+//	private int playerScore, prevPlayerScore;
 
 	public GamePanel(){
 		setPreferredSize( new Dimension(WIDTH, HEIGHT));
@@ -39,9 +41,10 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 	}
 	
 	private void genAsteroid(){
-		if (System.nanoTime() - lastAsteroidGen > asteroidGenInterval / level){
+		if (System.nanoTime() - lastAsteroidGen > asteroidGenInterval && curAsteroidCount < level*asteroidsPerLevel){
 			asteroids.add(new Asteroid());
 			lastAsteroidGen = System.nanoTime();
+			++curAsteroidCount;
 		}
 	}
 
@@ -50,16 +53,13 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 		//move bullets;
 		for (int i = bullets.size()-1; i >= 0; --i){
 			bullets.get(i).move();
-			if (bullets.get(i).outOfBounds()){
+			if (bullets.get(i).isExpired()){
 				bullets.remove(i);
 			}
 		}
 		//move asteroids
 		for (int i = asteroids.size()-1; i >= 0; --i){
 			asteroids.get(i).move();
-			if (asteroids.get(i).outOfBounds()){
-				asteroids.remove(i);
-			}
 		}
 	}
 
@@ -67,6 +67,11 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 		bullets.clear();
 		asteroids.clear();
 		ship = new Ship();
+		curAsteroidCount = 0;
+		level = 1;
+		screen = ENDSCREEN;
+//		prevPlayerScore = playerScore;
+//		playerScore = 0;
 	}
 
 	public boolean checkCollisions(){
@@ -74,10 +79,6 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 		for (int i = 0; i < asteroids.size(); ++i){
 			for (Point p: ship.getPoints()){
 				if (asteroids.get(i).contains(p)){
-					resetGame();
-					screen = ENDSCREEN;
-					prevPlayerScore = playerScore;
-					playerScore = 0;
 					return true;
 				}
 			}
@@ -87,7 +88,7 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 		for (int i = 0; i < asteroids.size(); ++i){
 			for (int j = 0; j < bullets.size(); ++j){
 				if (asteroids.get(i).isHitBy(bullets.get(j))){
-					playerScore += asteroids.get(i).getType()*5+5;
+//					playerScore += asteroids.get(i).getType()*5+5;
 					if (asteroids.get(i).getType() != Asteroid.SMALL){
 						//break down into 2 smaller asteroids
 						//spawn at contact point
@@ -111,17 +112,22 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 	//update variables when action is performed
 	public void updateVars(){
 		mousePosition = MouseInfo.getPointerInfo().getLocation();
-		Point offset = getLocationOnScreen();
-		mousePosition.translate(-offset.x, -offset.y);
+		try {
+			Point offset = getLocationOnScreen();
+			mousePosition.translate(-offset.x, -offset.y);
+		} catch(Exception e) {};
 		if(screen == GAME){
 			if(checkCollisions()){
-				level = 1;
+				resetGame();
 				return;
 			}
-			if (playerScore >= 100*level){
+			if (curAsteroidCount == level*asteroidsPerLevel && asteroids.size() == 0){
+				System.out.println("level up");
+				if (level == 2){
+					resetGame();
+					return;
+				}
 				++level;
-				resetGame();
-
 			}
 
 			moveObjects();
@@ -167,7 +173,7 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 			}	
 		}
 		else if(screen == GAME){
-			ship.shooting = true;
+			ship.canShoot = true;
 		}
 		else if (screen == ENDSCREEN){
 			if (endscreen.playButton.hovered(mousePosition)){
@@ -177,11 +183,7 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 	}
 
 	@Override
-	public void	mouseReleased(MouseEvent event){
-		if (screen == GAME){
-			ship.shooting = false;
-		}
-	}
+	public void	mouseReleased(MouseEvent event){}
 
 	@Override
 	public void paint(Graphics g){
@@ -199,11 +201,12 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 			}
 			g.setFont(f);
 			g.setColor(Color.WHITE);
-			g.drawString("Score: "+ playerScore,15,25);
+//			g.drawString("Score: "+ playerScore,15,25);
 			g.drawString("Level "+ level,740,25);
 		}
 		else if (screen == ENDSCREEN){
-			endscreen.draw(g,mousePosition,prevPlayerScore);
+//			endscreen.draw(g,mousePosition,prevPlayerScore);
+			endscreen.draw(g,mousePosition);
 		}
     }
 }

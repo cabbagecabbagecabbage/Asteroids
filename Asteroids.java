@@ -3,27 +3,21 @@ import java.awt.event.*;
 import javax.swing.*;
 
 /*
-menu (title, buttons,etc)
-player
-asteroids
-bullets
+https://www.youtube.com/watch?v=w60sfReTsRA
 
 consider:
-tweek some speed values
-only 2 levels
-waves of asteroids
+ships that shoot at u
+hyperspace
+
+thrust backwards when shooting (??)
+
+sound and visual effects, trailing stuff
 wrap
 make player not go off screen
 instruction
-text
 reconsider where each method should be
-score
-levels
-sound effects
-add powerups
 make asteroids nicer
-trailing stuff
-other ships shooting at you
+tweek some speed values
 */
 
 public class Asteroids extends JFrame{
@@ -35,7 +29,7 @@ public class Asteroids extends JFrame{
 		add(game);
 		pack();
 		setVisible(true);
-		setResizable(false);
+//		setResizable(false);
 		setLocationRelativeTo(null);
     }
     
