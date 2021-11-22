@@ -1,23 +1,20 @@
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 
 /*
+https://games.aarp.org/games/atari-asteroids
 https://www.youtube.com/watch?v=w60sfReTsRA
 
-consider:
+to do:
 ships that shoot at u
 hyperspace
-
-thrust backwards when shooting (??)
-
+lives/respawn?
 sound and visual effects, trailing stuff
-wrap
-make player not go off screen
-instruction
+make a good end screen
+thrust backwards when shooting (??)
+instructions tab?
 reconsider where each method should be
 make asteroids nicer
-tweek some speed values
+tweak some speed values
 */
 
 public class Asteroids extends JFrame{
