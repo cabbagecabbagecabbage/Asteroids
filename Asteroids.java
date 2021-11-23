@@ -6,8 +6,8 @@ https://www.youtube.com/watch?v=w60sfReTsRA
 
 to do:
 ships that shoot at u
-hyperspace
 lives/respawn?
+pause button?
 sound and visual effects, trailing stuff
 make a good end screen
 thrust backwards when shooting (??)
@@ -26,7 +26,7 @@ public class Asteroids extends JFrame{
 		add(game);
 		pack();
 		setVisible(true);
-//		setResizable(false);
+		setResizable(false);
 		setLocationRelativeTo(null);
     }
     

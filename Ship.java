@@ -21,7 +21,11 @@ public class Ship {
 
 	public boolean canShoot = false;
 	public double lastShot = System.nanoTime();
-	public final double interval = 100_000_000; //milliseconds
+	public final double shootInterval = 100_000_000; //milliseconds
+
+	public boolean canHyperSpace = false;
+	public double lastHyperSpace = System.nanoTime();
+	public final double hyperSpaceInterval = 1000_000_000; //milliseconds
 
 	public Ship(){
 		ship = new Polygon();
@@ -47,7 +51,7 @@ public class Ship {
 	}
 
 	public void move(boolean[] keys){
-		final double accel = 0.5, decel = 0.93;
+		final double accel = 0.3, decel = 0.96;
 		//change v based on key press
 		if(keys[KeyEvent.VK_D]){
 			angle += rotateAngle;
@@ -55,12 +59,9 @@ public class Ship {
 		if(keys[KeyEvent.VK_A]){
 			angle -= rotateAngle;
 		}
-		if(keys[KeyEvent.VK_W]){
-			vx += accel*Math.cos(angle);
-			vy += accel*Math.sin(angle);
-		}
-		if(keys[KeyEvent.VK_S]){
-			// vy += accel;
+		if(keys[KeyEvent.VK_W]) {
+			vx += accel * Math.cos(angle);
+			vy += accel * Math.sin(angle);
 		}
 		vx *= decel;
 		vy *= decel;
@@ -122,10 +123,22 @@ public class Ship {
 
 		//shoot bullets
 		if (canShoot){
-			if (lastShot + interval < System.nanoTime()){
+			if (lastShot + shootInterval < System.nanoTime()){
 				GamePanel.bullets.add(new Bullet(ship.xpoints[0],ship.ypoints[0],angle));
 				lastShot = System.nanoTime();
 				canShoot = false;
+			}
+		}
+
+		//hyperspace
+		if (canHyperSpace) {
+			if (lastHyperSpace + hyperSpaceInterval < System.nanoTime()) {
+				vx = 0;
+				vy = 0;
+				posx = (int) (Math.random()*GamePanel.WIDTH);
+				posy = (int) (Math.random()*GamePanel.HEIGHT);
+				lastHyperSpace = System.nanoTime();
+				canHyperSpace = false;
 			}
 		}
 	}

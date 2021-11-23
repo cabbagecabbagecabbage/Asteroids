@@ -28,6 +28,8 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 
 	public static Font f = new Font("Berlin Sans FB", Font.PLAIN, 18);
 
+	private boolean sReleased = true;
+
 //	private int playerScore, prevPlayerScore;
 
 	public GamePanel(){
@@ -122,7 +124,6 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 				return;
 			}
 			if (curAsteroidCount == level*asteroidsPerLevel && asteroids.size() == 0){
-				System.out.println("level up");
 				if (level == 2){
 					resetGame();
 					return;
@@ -144,6 +145,9 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 	@Override
 	public void keyReleased(KeyEvent keyEvent){
 		int key = keyEvent.getKeyCode();
+		if (keys[KeyEvent.VK_S]){
+			sReleased = true;
+		}
 		keys[key] = false;
 	}	
 	
@@ -151,6 +155,10 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 	public void keyPressed(KeyEvent keyEvent){
 		int key = keyEvent.getKeyCode();
 		keys[key] = true;
+		if (sReleased == true && keys[KeyEvent.VK_S]){
+			ship.canHyperSpace = true;
+		}
+		sReleased = false;
 	}
 	
 	@Override
