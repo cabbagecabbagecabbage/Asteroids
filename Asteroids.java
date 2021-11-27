@@ -5,10 +5,12 @@ https://games.aarp.org/games/atari-asteroids
 https://www.youtube.com/watch?v=w60sfReTsRA
 
 to do:
-ships that shoot at u
+collision animation
+thrust animation
+trail animation
+shoot sound
 lives/respawn?
 pause button?
-sound and visual effects, trailing stuff
 make a good end screen
 thrust backwards when shooting (??)
 instructions tab?

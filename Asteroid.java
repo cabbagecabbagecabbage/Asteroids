@@ -7,8 +7,6 @@ public class Asteroid {
 	to do:
 	*/
 
-
-	public static int TOP = 0, LEFT = 1, BOTTOM = 2, RIGHT = 3; // for cases
 	public static int BIG = 0, MID = 1, SMALL = 2; // for types
 	private static Random rand = new Random();
 
@@ -25,7 +23,7 @@ public class Asteroid {
 
 	//movement
 	private int dx,dy;
-	private final double speed = 2;
+	private final double speed = 2*Math.pow(1.1,GamePanel.level);
 	private double angle;
 	private static final double rotateAngle = Math.PI / 108;
 
@@ -42,6 +40,7 @@ public class Asteroid {
 
 		//generate location outside the screen (casework)
 		int startLocationCase = rand.nextInt(4);
+		int TOP = 0, LEFT = 1, BOTTOM = 2, RIGHT = 3; // for cases
 		if (startLocationCase == TOP){
 			//come from top
 			y = -size;
@@ -177,4 +176,6 @@ public class Asteroid {
 	public boolean contains(Point p){
 		return asteroid.contains(p);
 	}
+
+	public boolean intersects(Rectangle rect){return asteroid.intersects(rect);}
 }

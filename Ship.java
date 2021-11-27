@@ -8,7 +8,8 @@ public class Ship {
 	*/
 	private double posx = 400, posy = 300;
 	private double angle = 0; //radians
-	private final double rotateAngle = Math.PI / 36;
+	private final double rotateAngle = Math.PI / 72;
+	private final double accel = 0.1, decel = 0.98;
 	private final double halfTipAngle = Math.PI / 6;
 	private final double sideLength = 20.0;
 	private final int npoints = 3;
@@ -20,12 +21,12 @@ public class Ship {
 	private double vx = 0, vy = 0;
 
 	public boolean canShoot = false;
-	public double lastShot = System.nanoTime();
-	public final double shootInterval = 100_000_000; //milliseconds
+	private double lastShot = System.nanoTime();
+	private final double shootInterval = 100_000_000; //milliseconds
 
 	public boolean canHyperSpace = false;
-	public double lastHyperSpace = System.nanoTime();
-	public final double hyperSpaceInterval = 1000_000_000; //milliseconds
+	private double lastHyperSpace = System.nanoTime();
+	private final double hyperSpaceInterval = 1000_000_000; //milliseconds
 
 	public Ship(){
 		ship = new Polygon();
@@ -50,8 +51,9 @@ public class Ship {
 		);
 	}
 
-	public void move(boolean[] keys){
-		final double accel = 0.3, decel = 0.96;
+	public boolean move(boolean[] keys){
+		//return true if the ship dies
+
 		//change v based on key press
 		if(keys[KeyEvent.VK_D]){
 			angle += rotateAngle;
@@ -122,7 +124,8 @@ public class Ship {
 		}
 
 		//shoot bullets
-		if (canShoot){
+		if (canShoot && GamePanel.bullets.size() < 5){
+			//can't have more than 5 bullets on the screen
 			if (lastShot + shootInterval < System.nanoTime()){
 				GamePanel.bullets.add(new Bullet(ship.xpoints[0],ship.ypoints[0],angle));
 				lastShot = System.nanoTime();
@@ -131,16 +134,19 @@ public class Ship {
 		}
 
 		//hyperspace
-		if (canHyperSpace) {
-			if (lastHyperSpace + hyperSpaceInterval < System.nanoTime()) {
-				vx = 0;
-				vy = 0;
-				posx = (int) (Math.random()*GamePanel.WIDTH);
-				posy = (int) (Math.random()*GamePanel.HEIGHT);
-				lastHyperSpace = System.nanoTime();
-				canHyperSpace = false;
+		if (canHyperSpace && lastHyperSpace + hyperSpaceInterval < System.nanoTime()) {
+			vx = 0;
+			vy = 0;
+			posx = (int) (Math.random()*GamePanel.WIDTH);
+			posy = (int) (Math.random()*GamePanel.HEIGHT);
+			lastHyperSpace = System.nanoTime();
+			canHyperSpace = false;
+			if (Math.random() < 0.05){
+				//1 in 20 chance that hyperspace self-destructs the ship
+				return true;
 			}
 		}
+		return false;
 	}
 
 	public Point[] getPoints(){
@@ -151,6 +157,11 @@ public class Ship {
 		points[ship.npoints] = new Point((int) posx, (int) posy);
 		return points;
 	}
+
+	public int getX(){return (int) Math.round(posx);};
+	public int getY(){return (int) Math.round(posy);};
+
+	public boolean contains(int x, int y){ return ship.contains(x,y); }
 
 	public void draw(Graphics g){
 		g.setColor(Color.RED);

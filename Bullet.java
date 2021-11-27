@@ -2,7 +2,7 @@ import java.awt.*;
 
 public class Bullet {
 	private int x,y;
-	private int size = 2;
+	private int size = 3;
 
 	//movement
 	private double vx, vy;
@@ -11,7 +11,7 @@ public class Bullet {
 
 	//whether it should be removed
 	private boolean expired = false;
-	private double maxDist = 400;
+	private double maxDist = 500;
 	private double curDist = 0;
 
 	public Bullet (int x, int y, double angle){
@@ -50,8 +50,8 @@ public class Bullet {
 		return expired;
 	}
 
-	public void draw(Graphics g){
-		g.setColor(Color.RED);
+	public void draw(Graphics g, Color color){
+		g.setColor(color);
 		g.fillOval(x-size, y-size, 2*size, 2*size);
 	}
 }
