@@ -20,7 +20,7 @@ public class EndScreen {
 		playButton.draw(g,mousePosition);
 		g.setColor(Color.WHITE);
 		g.setFont(GamePanel.f);
-		g.drawString("Play",383,300);
+		g.drawString("Play Again",358,300);
 
 //		//score
 //		g.setFont(GamePanel.f);

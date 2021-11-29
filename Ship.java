@@ -10,6 +10,7 @@ public class Ship {
 	private double angle = 0; //radians
 	private final double rotateAngle = Math.PI / 72;
 	private final double accel = 0.1, decel = 0.98;
+	public boolean isThrusting = false;
 	private final double halfTipAngle = Math.PI / 6;
 	private final double sideLength = 20.0;
 	private final int npoints = 3;
@@ -22,11 +23,13 @@ public class Ship {
 
 	public boolean canShoot = false;
 	private double lastShot = System.nanoTime();
-	private final double shootInterval = 100_000_000; //milliseconds
+	private final double shootInterval = 200; //milliseconds
 
 	public boolean canHyperSpace = false;
 	private double lastHyperSpace = System.nanoTime();
-	private final double hyperSpaceInterval = 1000_000_000; //milliseconds
+	private final double hyperSpaceInterval = 1000; //milliseconds
+
+
 
 	public Ship(){
 		ship = new Polygon();
@@ -62,6 +65,7 @@ public class Ship {
 			angle -= rotateAngle;
 		}
 		if(keys[KeyEvent.VK_W]) {
+			isThrusting = true;
 			vx += accel * Math.cos(angle);
 			vy += accel * Math.sin(angle);
 		}
@@ -126,7 +130,10 @@ public class Ship {
 		//shoot bullets
 		if (canShoot && GamePanel.bullets.size() < 5){
 			//can't have more than 5 bullets on the screen
-			if (lastShot + shootInterval < System.nanoTime()){
+			if ((System.nanoTime() - lastShot) / 1000000 > shootInterval){
+				SoundEffect fireSound = new SoundEffect("sounds/fire.wav");
+//				fireSound.stop();
+				fireSound.play();
 				GamePanel.bullets.add(new Bullet(ship.xpoints[0],ship.ypoints[0],angle));
 				lastShot = System.nanoTime();
 				canShoot = false;
@@ -134,7 +141,7 @@ public class Ship {
 		}
 
 		//hyperspace
-		if (canHyperSpace && lastHyperSpace + hyperSpaceInterval < System.nanoTime()) {
+		if (canHyperSpace && (System.nanoTime() - lastHyperSpace) / 1000000 > hyperSpaceInterval) {
 			vx = 0;
 			vy = 0;
 			posx = (int) (Math.random()*GamePanel.WIDTH);
@@ -164,8 +171,10 @@ public class Ship {
 	public boolean contains(int x, int y){ return ship.contains(x,y); }
 
 	public void draw(Graphics g){
-		g.setColor(Color.RED);
-		g.fillOval((ship.xpoints[1]+ship.xpoints[2])/2-5, (ship.ypoints[1]+ship.ypoints[2])/2-5, 10, 10);
+		if (isThrusting){
+			g.setColor(Color.RED);
+			g.fillOval((ship.xpoints[1]+ship.xpoints[2])/2-5, (ship.ypoints[1]+ship.ypoints[2])/2-5, 10, 10);
+		}
 		g.setColor(Color.GREEN);
 		g.fillPolygon(ship);
 	}

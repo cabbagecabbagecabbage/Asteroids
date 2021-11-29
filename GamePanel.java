@@ -22,11 +22,13 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 
 	public static LinkedList<Asteroid> asteroids = new LinkedList<Asteroid>();
 	private double lastAsteroidGen = System.nanoTime();
-	private final double asteroidGenInterval = 500_000_000; //milliseconds
+	private final double asteroidGenInterval = 3000; //milliseconds
 	private int curAsteroidCount = 0;
 	private final int asteroidsPerLevel = 2;
 
 	public static LinkedList<Alien> aliens = new LinkedList<Alien>();
+	private double lastAlienGen = System.nanoTime();
+	private final double alienGenInterval = 10000; //milliseconds
 
 	public static LinkedList<Bullet> alienBullets = new LinkedList<Bullet>();
 
@@ -42,16 +44,23 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
         addMouseListener(this);
 		setFocusable(true);
         requestFocus();
-		aliens.add(new Alien(1));
+//		aliens.add(new Alien(1));
         timer = new Timer(10, this);
         timer.start();
 	}
 	
 	private void genAsteroid(){
-		if (System.nanoTime() - lastAsteroidGen > asteroidGenInterval && curAsteroidCount < level*asteroidsPerLevel){
+		if ((System.nanoTime() - lastAsteroidGen) / 1000000 > asteroidGenInterval && curAsteroidCount < level*asteroidsPerLevel){
 			asteroids.add(new Asteroid());
 			lastAsteroidGen = System.nanoTime();
 			++curAsteroidCount;
+		}
+	}
+
+	private void genAlien(){
+		if ((System.nanoTime() - lastAlienGen) / 1000000 > alienGenInterval && aliens.size() < level / 2){
+			aliens.add(new Alien(1));
+			lastAlienGen = System.nanoTime();
 		}
 	}
 
@@ -114,12 +123,12 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 				}
 			}
 		}
-		//check player - alien bullet collision, returns true if collided
-		for (int i = 0; i < alienBullets.size(); ++i){
-			if (ship.contains(alienBullets.get(i).getx(),alienBullets.get(i).gety())){
-				return true;
-			}
-		}
+//		//check player - alien bullet collision, returns true if collided
+//		for (int i = 0; i < alienBullets.size(); ++i){
+//			if (ship.contains(alienBullets.get(i).getx(),alienBullets.get(i).gety())){
+//				return true;
+//			}
+//		}
 		//check alien - asteroid collision
 		for (int i = asteroids.size()-1; i >= 0; --i){
 			for (int j = aliens.size()-1; j >= 0; --j){
@@ -200,16 +209,19 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 				return;
 			}
 			if (curAsteroidCount == level*asteroidsPerLevel && asteroids.size() == 0){
-				if (level == 2){
+				if (level == 2) {
 					resetGame();
 					return;
 				}
-				aliens.add(new Alien(1));
+				curAsteroidCount = 0;
 				++level;
 			}
 
 			moveObjects();
 			genAsteroid();
+			if (level >= 2){
+				genAlien();
+			}
 		}
 	}
 	
@@ -224,6 +236,9 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 		int key = keyEvent.getKeyCode();
 		if (key == KeyEvent.VK_S){
 			sReleased = true;
+		}
+		if (key == KeyEvent.VK_W){
+			ship.isThrusting = false;
 		}
 		keys[key] = false;
 	}	

@@ -6,7 +6,6 @@ https://www.youtube.com/watch?v=w60sfReTsRA
 
 to do:
 collision animation
-thrust animation
 trail animation
 shoot sound
 lives/respawn?
