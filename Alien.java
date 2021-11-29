@@ -3,19 +3,15 @@ import java.awt.*;
 import java.util.Random;
 
 public class Alien {
-    private int x, y, width, height;
-
+    private static Random rand = new Random();
     private final double speed = 2;
+    private final double shootInterval = 1000_000_000; //milliseconds
+    private int x, y, width, height;
     private double angle;
     private int dx, dy;
-
     private Rectangle rect;
     private Image img;
-
-    private static Random rand = new Random();
-
     private double lastShot = System.nanoTime();
-    private final double shootInterval = 1000_000_000; //milliseconds
 
     public Alien(int type) {
         if (type == 1) {
@@ -63,7 +59,7 @@ public class Alien {
 
     public void move() {
         //randomized movement
-        if (rand.nextDouble() < 0.02) {
+        if (rand.nextDouble() < 0.04) {
             angle = rand.nextDouble() * Math.PI;
             dx = (int) Math.round(speed * Math.cos(angle));
             dy = (int) Math.round(speed * Math.sin(angle));

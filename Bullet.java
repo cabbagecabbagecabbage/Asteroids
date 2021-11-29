@@ -1,14 +1,12 @@
 import java.awt.*;
 
 public class Bullet {
+    private final double scalar = 8;
     private int x, y;
     private int size = 3;
-
     //movement
     private double vx, vy;
     private double angle;
-    private final double scalar = 8;
-
     //whether it should be removed
     private boolean expired = false;
     private double maxDist = 500;

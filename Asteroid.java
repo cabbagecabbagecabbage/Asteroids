@@ -7,29 +7,24 @@ public class Asteroid {
 	to do:
 	*/
 
-    public static int BIG = 0, MID = 1, SMALL = 2; // for types
+    private static final double rotateAngle = Math.PI / 108;
+    public static final int BIG = 0, MID = 1, SMALL = 2; // for types
     private static Random rand = new Random();
-
-    private Polygon asteroid = new Polygon();
+    private final double speed = 2 * Math.pow(1.1, GamePanel.level);
+    private final int type;
     //maintain arrays of double coordinates to prevent distortion
     ArrayList<Double> xpointsDouble = new ArrayList<Double>();
     ArrayList<Double> ypointsDouble = new ArrayList<Double>();
-
+    private Polygon asteroid = new Polygon();
     //location of center
     private int x, y;
-
     //size
     private int size;
-
     //movement
     private int dx, dy;
-    private final double speed = 2 * Math.pow(1.1, GamePanel.level);
     private double angle;
-    private static final double rotateAngle = Math.PI / 108;
-
     //other properties
     private boolean dead = false;
-    private final int type;
 
     public Asteroid() {
         //constructor for largest asteroid

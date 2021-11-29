@@ -7,15 +7,16 @@ https://www.youtube.com/watch?v=w60sfReTsRA
 to do:
 collision animation
 trail animation
-shoot sound
 lives/respawn?
 pause button?
 make a good end screen
-thrust backwards when shooting (??)
 instructions tab?
 reconsider where each method should be
 make asteroids nicer
 tweak some speed values
+
+to be fixed:
+high score
 */
 
 public class Asteroids extends JFrame {

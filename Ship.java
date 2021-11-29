@@ -3,36 +3,32 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class Ship {
+    public static SoundEffect thrustSound = new SoundEffect("sounds/thrust.wav");
+    private final double rotateAngle = Math.PI / 72;
+    private final double accel = 0.15, decel = 0.98;
+    private final double halfTipAngle = Math.PI / 6;
+    private final double sideLength = 20.0;
+    private final int npoints = 3;
+    private final double shootInterval = 200; //milliseconds
+    private final double hyperSpaceInterval = 1000; //milliseconds
+    public boolean isThrusting = false;
+    public boolean canShoot = false;
+    public boolean canHyperSpace = false;
     /*
     to do:
     */
     private double posx = 400, posy = 300;
     private double angle = 0; //radians
-    private final double rotateAngle = Math.PI / 72;
-    private final double accel = 0.15, decel = 0.98;
-    public boolean isThrusting = false;
-    private final double halfTipAngle = Math.PI / 6;
-    private final double sideLength = 20.0;
-    private final int npoints = 3;
     private Polygon ship;
     //maintain arrays of double coordinates to maintain accuracy
     private ArrayList<Double> xpointsDouble = new ArrayList<Double>();
     private ArrayList<Double> ypointsDouble = new ArrayList<Double>();
-
     private double vx = 0, vy = 0;
-
-    public boolean canShoot = false;
     private double lastShot = System.nanoTime();
-    private final double shootInterval = 200; //milliseconds
-
-    public boolean canHyperSpace = false;
     private double lastHyperSpace = System.nanoTime();
-    private final double hyperSpaceInterval = 1000; //milliseconds
-
-    public static SoundEffect thrustSound = new SoundEffect("sounds/thrust.wav");
 
     public Ship() {
-		thrustSound.stop();
+        thrustSound.stop();
         ship = new Polygon();
         xpointsDouble.add(posx + Math.cos(angle) * sideLength);
         ypointsDouble.add(posy + Math.sin(angle) * sideLength);
@@ -84,14 +80,14 @@ public class Ship {
 
         //for each point, obtain the double that it should be, then round to get the lattice coordinates
 
-		//tip
+        //tip
         xpointsDouble.set(0, posx + Math.cos(angle) * sideLength);
         ypointsDouble.set(0, posy + Math.sin(angle) * sideLength);
 
         ship.xpoints[0] = (int) Math.round(xpointsDouble.get(0));
         ship.ypoints[0] = (int) Math.round(ypointsDouble.get(0));
 
-		//base vertices
+        //base vertices
         double invAngle = angle - Math.PI;
         xpointsDouble.set(1, posx + Math.cos(invAngle + halfTipAngle) * sideLength);
         ypointsDouble.set(1, posy + Math.sin(invAngle + halfTipAngle) * sideLength);
@@ -105,15 +101,15 @@ public class Ship {
         ship.xpoints[2] = (int) Math.round(xpointsDouble.get(2));
         ship.ypoints[2] = (int) Math.round(ypointsDouble.get(2));
 
-		//wrap around
+        //wrap around
         if (posx < -sideLength) {
             translate(GamePanel.WIDTH + sideLength, 0);
         }
         if (posx > GamePanel.WIDTH + sideLength) {
-			translate(-(GamePanel.WIDTH + sideLength), 0);
+            translate(-(GamePanel.WIDTH + sideLength), 0);
         }
         if (posy < -sideLength) {
-			translate(0, GamePanel.HEIGHT + sideLength);
+            translate(0, GamePanel.HEIGHT + sideLength);
         }
         if (posy > GamePanel.HEIGHT + sideLength) {
             translate(0, -(GamePanel.HEIGHT + sideLength));
@@ -127,7 +123,7 @@ public class Ship {
                 fireSound.play();
                 GamePanel.bullets.add(new Bullet(ship.xpoints[0], ship.ypoints[0], angle));
                 lastShot = System.nanoTime();
-				translate(Math.cos(invAngle)*4,Math.sin(invAngle)*4);
+                translate(Math.cos(invAngle) * 4, Math.sin(invAngle) * 4);
                 canShoot = false;
             }
         }
@@ -148,16 +144,16 @@ public class Ship {
         return false;
     }
 
-	private void translate(double dx, double dy){
-		for (int i = 0; i < ship.npoints; ++i) {
-			xpointsDouble.set(i, xpointsDouble.get(i) + dx);
-			ship.xpoints[i] = (int) Math.round(xpointsDouble.get(i));
-			ypointsDouble.set(i, ypointsDouble.get(i) + dy);
-			ship.ypoints[i] = (int) Math.round(ypointsDouble.get(i));
-		}
-		posx += dx;
-		posy += dy;
-	}
+    private void translate(double dx, double dy) {
+        for (int i = 0; i < ship.npoints; ++i) {
+            xpointsDouble.set(i, xpointsDouble.get(i) + dx);
+            ship.xpoints[i] = (int) Math.round(xpointsDouble.get(i));
+            ypointsDouble.set(i, ypointsDouble.get(i) + dy);
+            ship.ypoints[i] = (int) Math.round(ypointsDouble.get(i));
+        }
+        posx += dx;
+        posy += dy;
+    }
 
     public Point[] getPoints() {
         Point[] points = new Point[ship.npoints + 1];

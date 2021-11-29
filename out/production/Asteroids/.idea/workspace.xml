@@ -2,12 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="09e124f8-5381-4315-b98a-3df0112c5ba9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/highScore.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Alien.java" beforeDir="false" afterPath="$PROJECT_DIR$/Alien.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Asteroid.java" beforeDir="false" afterPath="$PROJECT_DIR$/Asteroid.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Asteroids.java" beforeDir="false" afterPath="$PROJECT_DIR$/Asteroids.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Bullet.java" beforeDir="false" afterPath="$PROJECT_DIR$/Bullet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EndScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/EndScreen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/GamePanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Ship.java" beforeDir="false" afterPath="$PROJECT_DIR$/Ship.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Asteroids/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Asteroids/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Asteroids/Asteroids.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Asteroids/Asteroids.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Asteroids/Alien.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Asteroids/Alien.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Asteroids/Asteroid.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Asteroids/Asteroid.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Asteroids/Bullet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Asteroids/Bullet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Asteroids/EndScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Asteroids/EndScreen.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Asteroids/GamePanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Asteroids/GamePanel.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Asteroids/Ship.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Asteroids/Ship.class" afterDir="false" />
     </list>
@@ -34,12 +42,16 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedIndex" value="1" />
+  </component>
   <component name="ProjectId" id="21BuMRqTFdleFC39GAeTkbR9i8C" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -80,6 +92,7 @@
       <workItem from="1637968500054" duration="819000" />
       <workItem from="1637969647725" duration="8308000" />
       <workItem from="1638028093828" duration="13699000" />
+      <workItem from="1638149507838" duration="15583000" />
     </task>
     <servers />
   </component>
@@ -98,21 +111,7 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/GamePanel.java</url>
-          <line>5</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-field">
-          <url>file://$PROJECT_DIR$/GamePanel.java</url>
-          <line>7</line>
-          <properties field="level" class="GamePanel" />
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>
