@@ -18,20 +18,20 @@ make asteroids nicer
 tweak some speed values
 */
 
-public class Asteroids extends JFrame{
-	GamePanel game = new GamePanel();
-	
+public class Asteroids extends JFrame {
+    GamePanel game = new GamePanel();
+
     public Asteroids() {
-		super("Asteroids");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		add(game);
-		pack();
-		setVisible(true);
-		setResizable(false);
-		setLocationRelativeTo(null);
+        super("Asteroids");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        add(game);
+        pack();
+        setVisible(true);
+        setResizable(false);
+        setLocationRelativeTo(null);
     }
-    
+
     public static void main(String[] arguments) {
-		Asteroids frame = new Asteroids();
+        Asteroids frame = new Asteroids();
     }
 }
