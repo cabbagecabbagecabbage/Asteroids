@@ -7,14 +7,14 @@ public class Asteroid {
 	to do:
 	*/
 
-    private static final double rotateAngle = Math.PI / 108;
     public static final int BIG = 0, MID = 1, SMALL = 2; // for types
-    private static Random rand = new Random();
+    private static final double rotateAngle = Math.PI / 108;
+    private static final Random rand = new Random();
     private final double speed = 2 * Math.pow(1.1, GamePanel.level);
     private final int type;
     //maintain arrays of double coordinates to prevent distortion
-    ArrayList<Double> xpointsDouble = new ArrayList<Double>();
-    ArrayList<Double> ypointsDouble = new ArrayList<Double>();
+    private ArrayList<Double> xpointsDouble = new ArrayList<>();
+    private ArrayList<Double> ypointsDouble = new ArrayList<>();
     private Polygon asteroid = new Polygon();
     //location of center
     private int x, y;
@@ -23,8 +23,6 @@ public class Asteroid {
     //movement
     private int dx, dy;
     private double angle;
-    //other properties
-    private boolean dead = false;
 
     public Asteroid() {
         //constructor for largest asteroid
@@ -52,7 +50,7 @@ public class Asteroid {
             y = GamePanel.HEIGHT + size;
             x = rand.nextInt(GamePanel.WIDTH);
             angle = rand.nextDouble() * Math.PI + Math.PI;
-        } else if (startLocationCase == RIGHT) {
+        } else {
             //come from right
             y = rand.nextInt(GamePanel.HEIGHT);
             x = GamePanel.WIDTH + size;
@@ -94,11 +92,12 @@ public class Asteroid {
     private void genPolygon() {
         //generate the polygon's points
         double genAngle = 0;
-        while (genAngle < Math.PI * 2) {
-            genAngle += Math.PI / 3 * rand.nextDouble() * Math.PI / 3;
-            asteroid.addPoint(x + (int) Math.round(Math.cos(genAngle) * size), y + (int) Math.round(Math.sin(genAngle) * size));
-            xpointsDouble.add(x + Math.cos(genAngle) * size);
-            ypointsDouble.add(y + Math.sin(genAngle) * size);
+        int idx = 0;
+        while ((genAngle += Math.PI / 6 + rand.nextDouble() * Math.PI / 4) < Math.PI * 2) {
+            xpointsDouble.add(x + Math.cos(genAngle) * (size + (rand.nextInt(2) * 4 - 2)));
+            ypointsDouble.add(y + Math.sin(genAngle) * (size + (rand.nextInt(2) * 4 - 2)));
+            asteroid.addPoint((int) Math.round(xpointsDouble.get(idx)), (int) Math.round(ypointsDouble.get(idx)));
+            ++idx;
         }
     }
 
@@ -127,35 +126,29 @@ public class Asteroid {
 
         //wrap around
         if (x < -size) {
-            for (int i = 0; i < asteroid.npoints; ++i) {
-                xpointsDouble.set(i, xpointsDouble.get(i) + GamePanel.WIDTH + size);
-                asteroid.xpoints[i] = (int) Math.round(xpointsDouble.get(i));
-            }
-            x += GamePanel.WIDTH + size;
+            translate(GamePanel.WIDTH+size, 0);
         }
         if (x > GamePanel.WIDTH + size) {
-            for (int i = 0; i < asteroid.npoints; ++i) {
-                xpointsDouble.set(i, xpointsDouble.get(i) - GamePanel.WIDTH - size);
-                asteroid.xpoints[i] = (int) Math.round(xpointsDouble.get(i));
-            }
-            x -= GamePanel.WIDTH + size;
+            translate(-(GamePanel.WIDTH+size),0);
         }
         if (y < -size) {
-            for (int i = 0; i < asteroid.npoints; ++i) {
-                ypointsDouble.set(i, ypointsDouble.get(i) + GamePanel.HEIGHT + size);
-                asteroid.ypoints[i] = (int) Math.round(ypointsDouble.get(i));
-            }
-            y += GamePanel.HEIGHT + size;
+            translate(0,GamePanel.HEIGHT + size);
         }
         if (y > GamePanel.HEIGHT + size) {
-            for (int i = 0; i < asteroid.npoints; ++i) {
-                ypointsDouble.set(i, ypointsDouble.get(i) - GamePanel.HEIGHT - size);
-                asteroid.ypoints[i] = (int) Math.round(ypointsDouble.get(i));
-            }
-            y -= GamePanel.HEIGHT + size;
+            translate(0,-(GamePanel.HEIGHT + size));
         }
         asteroid = new Polygon(asteroid.xpoints, asteroid.ypoints, asteroid.npoints); //collisions wont work unless a new one is created; hypothesis: modifying xpoints and ypoints does not move the actual polygon (but .draw() somehow does not present this behaviour, only .contains())
-//		System.out.println(x+" "+y);
+    }
+
+    private void translate(double dx, double dy) {
+        for (int i = 0; i < asteroid.npoints; ++i) {
+            xpointsDouble.set(i, xpointsDouble.get(i) + dx);
+            asteroid.xpoints[i] = (int) Math.round(xpointsDouble.get(i));
+            ypointsDouble.set(i, ypointsDouble.get(i) + dy);
+            asteroid.ypoints[i] = (int) Math.round(ypointsDouble.get(i));
+        }
+        x += dx;
+        y += dy;
     }
 
     public void draw(Graphics g) {
@@ -163,8 +156,12 @@ public class Asteroid {
         g.fillPolygon(asteroid);
     }
 
+    public int getX() {return x;}
+
+    public int getY() {return y;}
+
     public boolean isHitBy(Bullet b) {
-        return asteroid.contains(b.getx(), b.gety());
+        return asteroid.contains(b.getX(), b.getY());
     }
 
     public boolean contains(Point p) {

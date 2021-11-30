@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="09e124f8-5381-4315-b98a-3df0112c5ba9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/highScore.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/highScorer.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Alien.java" beforeDir="false" afterPath="$PROJECT_DIR$/Alien.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Asteroid.java" beforeDir="false" afterPath="$PROJECT_DIR$/Asteroid.java" afterDir="false" />
@@ -10,14 +10,18 @@
       <change beforePath="$PROJECT_DIR$/Bullet.java" beforeDir="false" afterPath="$PROJECT_DIR$/Bullet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EndScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/EndScreen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/GamePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HighScore.java" beforeDir="false" afterPath="$PROJECT_DIR$/HighScore.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Ship.java" beforeDir="false" afterPath="$PROJECT_DIR$/Ship.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/highScore.txt" beforeDir="false" afterPath="$PROJECT_DIR$/highScore.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Asteroids/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Asteroids/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Asteroids/Alien.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Asteroids/Alien.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Asteroids/Asteroid.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Asteroids/Asteroid.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Asteroids/Bullet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Asteroids/Bullet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Asteroids/Asteroids.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Asteroids/Asteroids.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Asteroids/EndScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Asteroids/EndScreen.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Asteroids/GamePanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Asteroids/GamePanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Asteroids/HighScore.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Asteroids/HighScore.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Asteroids/Ship.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Asteroids/Ship.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Asteroids/highScore.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Asteroids/highScore.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,9 +45,6 @@
       <filtered-out-file-type name="TAG" />
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
-  </component>
-  <component name="ProblemsViewState">
-    <option name="selectedIndex" value="1" />
   </component>
   <component name="ProjectId" id="21BuMRqTFdleFC39GAeTkbR9i8C" />
   <component name="ProjectViewState">
@@ -93,7 +94,9 @@
       <workItem from="1637969647725" duration="8308000" />
       <workItem from="1638028093828" duration="13699000" />
       <workItem from="1638149507838" duration="15583000" />
-      <workItem from="1638193848550" duration="825000" />
+      <workItem from="1638193848550" duration="3713000" />
+      <workItem from="1638197698563" duration="4356000" />
+      <workItem from="1638217047178" duration="9175000" />
     </task>
     <servers />
   </component>

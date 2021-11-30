@@ -5,7 +5,7 @@ import java.util.Random;
 public class Alien {
     private static Random rand = new Random();
     private final double speed = 2;
-    private final double shootInterval = 1000_000_000; //milliseconds
+    private final double shootInterval = 1000; //milliseconds
     private int x, y, width, height;
     private double angle;
     private int dx, dy;
@@ -86,11 +86,7 @@ public class Alien {
             y -= GamePanel.HEIGHT;
             rect.setLocation(x, y);
         }
-        rect = new Rectangle(x, y, width, height);
-//        System.out.println(x+" "+y);
-        if (lastShot + shootInterval < System.nanoTime()) {
-//            System.out.println(x+"::"+y);
-//            System.out.println(GamePanel.ship.getX()+";;"+GamePanel.ship.getY());
+        if ((System.nanoTime() - lastShot) / 1000000 > shootInterval) {
             GamePanel.alienBullets.add(new Bullet(x + width / 2, y + height / 2, Math.atan2(GamePanel.ship.getY() - y, GamePanel.ship.getX() - x)));
             lastShot = System.nanoTime();
         }

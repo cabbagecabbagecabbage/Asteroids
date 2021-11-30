@@ -20,11 +20,11 @@ public class Bullet {
         this.vy = Math.sin(angle) * scalar;
     }
 
-    public int getx() {
+    public int getX() {
         return x;
     }
 
-    public int gety() {
+    public int getY() {
         return y;
     }
 

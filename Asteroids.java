@@ -5,18 +5,15 @@ https://games.aarp.org/games/atari-asteroids
 https://www.youtube.com/watch?v=w60sfReTsRA
 
 to do:
-collision animation
+images for player?
+make varying magnitude asteroids
+make respawn better
+collision sound
 trail animation
-lives/respawn?
 pause button?
 make a good end screen
 instructions tab?
 reconsider where each method should be
-make asteroids nicer
-tweak some speed values
-
-to be fixed:
-high score
 */
 
 public class Asteroids extends JFrame {

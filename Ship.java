@@ -3,26 +3,23 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class Ship {
+    private static final SoundEffect fireSound = new SoundEffect("sounds/fire.wav");
     public static SoundEffect thrustSound = new SoundEffect("sounds/thrust.wav");
     private final double rotateAngle = Math.PI / 72;
-    private final double accel = 0.15, decel = 0.98;
+    private final double accel = 0.20, decel = 0.98;
     private final double halfTipAngle = Math.PI / 6;
     private final double sideLength = 20.0;
-    private final int npoints = 3;
-    private final double shootInterval = 200; //milliseconds
+    private final double shootInterval = 500; //milliseconds
     private final double hyperSpaceInterval = 1000; //milliseconds
+    //maintain arrays of double coordinates to maintain accuracy
+    private final ArrayList<Double> xpointsDouble = new ArrayList<>();
+    private final ArrayList<Double> ypointsDouble = new ArrayList<>();
     public boolean isThrusting = false;
     public boolean canShoot = false;
     public boolean canHyperSpace = false;
-    /*
-    to do:
-    */
     private double posx = 400, posy = 300;
-    private double angle = 0; //radians
+    private double angle = 3 * Math.PI / 2; //radians
     private Polygon ship;
-    //maintain arrays of double coordinates to maintain accuracy
-    private ArrayList<Double> xpointsDouble = new ArrayList<Double>();
-    private ArrayList<Double> ypointsDouble = new ArrayList<Double>();
     private double vx = 0, vy = 0;
     private double lastShot = System.nanoTime();
     private double lastHyperSpace = System.nanoTime();
@@ -119,7 +116,6 @@ public class Ship {
         if (canShoot && GamePanel.bullets.size() < 5) {
             //can't have more than 5 bullets on the screen
             if ((System.nanoTime() - lastShot) / 1000000 > shootInterval) {
-                SoundEffect fireSound = new SoundEffect("sounds/fire.wav");
                 fireSound.play();
                 GamePanel.bullets.add(new Bullet(ship.xpoints[0], ship.ypoints[0], angle));
                 lastShot = System.nanoTime();
@@ -141,6 +137,7 @@ public class Ship {
                 return true;
             }
         }
+        ship = new Polygon(ship.xpoints, ship.ypoints, ship.npoints);
         return false;
     }
 
