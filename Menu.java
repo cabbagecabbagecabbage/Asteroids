@@ -2,20 +2,17 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Menu {
+    private final Image title = new ImageIcon("text/title.png").getImage();
     /*
     to do: add title
     */
-    public Button playButton, playButtonHovered;
-    private Image title = new ImageIcon("text/title.png").getImage();
+    public Button playButton;
 
     public Menu() {
         playButton = new Button(330, 270, 140, 70);
 
         // intructionsButton = new Button(350,270,100,50,"buttons/button.png");
         // intructionsButtonHovered = new Button(350,270,100,50,"buttons/buttonHovered.png");
-
-        // playButton = new Button(350,270,100,50,"buttons/button.png");
-        // playButtonHovered = new Button(350,270,100,50,"buttons/buttonHovered.png");
     }
 
     public void draw(Graphics g, Point mousePosition) {

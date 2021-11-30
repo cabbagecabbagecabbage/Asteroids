@@ -13,8 +13,8 @@ public class Asteroid {
     private final double speed = 2 * Math.pow(1.1, GamePanel.level);
     private final int type;
     //maintain arrays of double coordinates to prevent distortion
-    private ArrayList<Double> xpointsDouble = new ArrayList<>();
-    private ArrayList<Double> ypointsDouble = new ArrayList<>();
+    private final ArrayList<Double> xpointsDouble = new ArrayList<>();
+    private final ArrayList<Double> ypointsDouble = new ArrayList<>();
     private Polygon asteroid = new Polygon();
     //location of center
     private int x, y;
@@ -126,16 +126,16 @@ public class Asteroid {
 
         //wrap around
         if (x < -size) {
-            translate(GamePanel.WIDTH+size, 0);
+            translate(GamePanel.WIDTH + size, 0);
         }
         if (x > GamePanel.WIDTH + size) {
-            translate(-(GamePanel.WIDTH+size),0);
+            translate(-(GamePanel.WIDTH + size), 0);
         }
         if (y < -size) {
-            translate(0,GamePanel.HEIGHT + size);
+            translate(0, GamePanel.HEIGHT + size);
         }
         if (y > GamePanel.HEIGHT + size) {
-            translate(0,-(GamePanel.HEIGHT + size));
+            translate(0, -(GamePanel.HEIGHT + size));
         }
         asteroid = new Polygon(asteroid.xpoints, asteroid.ypoints, asteroid.npoints); //collisions wont work unless a new one is created; hypothesis: modifying xpoints and ypoints does not move the actual polygon (but .draw() somehow does not present this behaviour, only .contains())
     }
@@ -156,9 +156,13 @@ public class Asteroid {
         g.fillPolygon(asteroid);
     }
 
-    public int getX() {return x;}
+    public int getX() {
+        return x;
+    }
 
-    public int getY() {return y;}
+    public int getY() {
+        return y;
+    }
 
     public boolean isHitBy(Bullet b) {
         return asteroid.contains(b.getX(), b.getY());

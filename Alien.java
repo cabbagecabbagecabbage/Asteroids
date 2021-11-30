@@ -3,14 +3,15 @@ import java.awt.*;
 import java.util.Random;
 
 public class Alien {
-    private static Random rand = new Random();
+    private static final Random rand = new Random();
     private final double speed = 2;
     private final double shootInterval = 1000; //milliseconds
-    private int x, y, width, height;
+    private final int width, height;
+    private final Rectangle rect;
+    private final Image img;
+    private int x, y;
     private double angle;
     private int dx, dy;
-    private Rectangle rect;
-    private Image img;
     private double lastShot = System.nanoTime();
 
     public Alien(int type) {

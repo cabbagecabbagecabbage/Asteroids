@@ -22,7 +22,7 @@ public class EndScreen {
         g.drawString("Play Again", 358, 310);
 
         //score
-        g.drawString("Your Score: " + playerScore + "  ("+ (name == null ? "Anonymous Player" : name)+")", 15, 25);
+        g.drawString("Your Score: " + playerScore + "  (" + (name == null ? "Anonymous Player" : name) + ")", 15, 25);
 
         //high score
         g.drawString("High Score: " + HighScore.getHighScore() + "  (" + HighScore.getHighScorer() + ")", 15, 45);

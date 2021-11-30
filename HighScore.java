@@ -16,7 +16,7 @@ public class HighScore {
         }
     }
 
-    public static String getHighScorer(){
+    public static String getHighScorer() {
         try {
             input = new Scanner(new BufferedReader(new FileReader("highScorer.txt")));
             String ret = (input.hasNext() ? input.nextLine() : "Anonymous Player");
