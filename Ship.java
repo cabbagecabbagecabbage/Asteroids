@@ -9,14 +9,17 @@ public class Ship {
     private final double accel = 0.20, decel = 0.98;
     private final double halfTipAngle = Math.PI / 6;
     private final double sideLength = 20.0;
+    private final double spawnTime;
     private final double shootInterval = 500; //milliseconds
     private final double hyperSpaceInterval = 1000; //milliseconds
+    private final double immunePeriod = 5000; //milliseconds
     //maintain arrays of double coordinates to maintain accuracy
     private final ArrayList<Double> xpointsDouble = new ArrayList<>();
     private final ArrayList<Double> ypointsDouble = new ArrayList<>();
     public boolean isThrusting = false;
     public boolean canShoot = false;
     public boolean canHyperSpace = false;
+    private boolean isImmune = true;
     private double posx = 400, posy = 300;
     private double angle = 3 * Math.PI / 2; //radians
     private Polygon ship;
@@ -26,6 +29,7 @@ public class Ship {
 
     public Ship() {
         thrustSound.stop();
+        spawnTime = System.nanoTime();
         ship = new Polygon();
         xpointsDouble.add(posx + Math.cos(angle) * sideLength);
         ypointsDouble.add(posy + Math.sin(angle) * sideLength);
@@ -138,6 +142,10 @@ public class Ship {
             }
         }
         ship = new Polygon(ship.xpoints, ship.ypoints, ship.npoints);
+
+        if ((System.nanoTime() - spawnTime) / 1000000 > immunePeriod) {
+            isImmune = false;
+        }
         return false;
     }
 
@@ -173,12 +181,22 @@ public class Ship {
         return ship.contains(x, y);
     }
 
+    public boolean isImmune() {
+        return isImmune;
+    }
+
     public void draw(Graphics g) {
         if (isThrusting) {
             g.setColor(Color.RED);
             g.fillOval((ship.xpoints[1] + ship.xpoints[2]) / 2 - 5, (ship.ypoints[1] + ship.ypoints[2]) / 2 - 5, 10, 10);
         }
+//        if (!isImmune) g.setColor(Color.GREEN);
+//        else g.setColor(Color.BLUE);
         g.setColor(Color.GREEN);
         g.fillPolygon(ship);
+        if (isImmune) {
+            g.setColor(Color.RED);
+            g.drawPolygon(ship);
+        }
     }
 }

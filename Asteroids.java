@@ -5,14 +5,8 @@ https://games.aarp.org/games/atari-asteroids
 https://www.youtube.com/watch?v=w60sfReTsRA
 
 to do:
-images for player?
-make varying magnitude asteroids
-make respawn better
-collision sound
-trail animation
-pause button?
-make a good end screen
-instructions tab?
+COMMENTS
+getters and setters
 reconsider where each method should be
 */
 
