@@ -2,24 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="09e124f8-5381-4315-b98a-3df0112c5ba9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/HelpScreen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Alien.java" beforeDir="false" afterPath="$PROJECT_DIR$/Alien.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Asteroid.java" beforeDir="false" afterPath="$PROJECT_DIR$/Asteroid.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Asteroids.java" beforeDir="false" afterPath="$PROJECT_DIR$/Asteroids.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Bullet.java" beforeDir="false" afterPath="$PROJECT_DIR$/Bullet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Button.java" beforeDir="false" afterPath="$PROJECT_DIR$/Button.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EndScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/EndScreen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/GamePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HelpScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/HelpScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HighScore.java" beforeDir="false" afterPath="$PROJECT_DIR$/HighScore.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/Menu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Ship.java" beforeDir="false" afterPath="$PROJECT_DIR$/Ship.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SoundEffect.java" beforeDir="false" afterPath="$PROJECT_DIR$/SoundEffect.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/highScore.txt" beforeDir="false" afterPath="$PROJECT_DIR$/highScore.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/highScorer.txt" beforeDir="false" afterPath="$PROJECT_DIR$/highScorer.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Asteroids/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Asteroids/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Asteroids/Alien.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Asteroids/Alien.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Asteroids/Asteroid.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Asteroids/Asteroid.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Asteroids/Asteroids.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Asteroids/Asteroids.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Asteroids/EndScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Asteroids/EndScreen.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Asteroids/GamePanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Asteroids/GamePanel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Asteroids/Menu.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Asteroids/Menu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Asteroids/HelpScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Asteroids/HelpScreen.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Asteroids/Ship.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Asteroids/Ship.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Asteroids/highScore.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Asteroids/highScore.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Asteroids/highScorer.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Asteroids/highScorer.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +101,9 @@
       <workItem from="1638217047178" duration="12914000" />
       <workItem from="1638245145765" duration="1336000" />
       <workItem from="1638280140070" duration="168000" />
-      <workItem from="1638302275536" duration="11480000" />
+      <workItem from="1638302275536" duration="11756000" />
+      <workItem from="1638366881254" duration="672000" />
+      <workItem from="1638369001189" duration="5583000" />
     </task>
     <servers />
   </component>

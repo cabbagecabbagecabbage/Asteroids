@@ -1,9 +1,6 @@
 import javax.swing.*;
 
 /*
-https://games.aarp.org/games/atari-asteroids
-https://www.youtube.com/watch?v=w60sfReTsRA
-
 to do:
 COMMENTS
 getters and setters
@@ -19,7 +16,7 @@ public class Asteroids extends JFrame {
         add(game);
         pack();
         setVisible(true);
-        setResizable(false);
+        setResizable(false); //not allowing resize
         setLocationRelativeTo(null);
     }
 

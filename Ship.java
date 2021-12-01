@@ -5,14 +5,14 @@ import java.util.ArrayList;
 public class Ship {
     private static final SoundEffect fireSound = new SoundEffect("sounds/fire.wav");
     public static SoundEffect thrustSound = new SoundEffect("sounds/thrust.wav");
-    private final double rotateAngle = Math.PI / 72;
-    private final double accel = 0.20, decel = 0.98;
-    private final double halfTipAngle = Math.PI / 6;
-    private final double sideLength = 20.0;
+    private static final double rotateAngle = Math.PI / 72;
+    private static final double accel = 0.20, decel = 0.98;
+    private static final double halfTipAngle = Math.PI / 6;
+    private static final double sideLength = 20.0;
     private final double spawnTime;
-    private final double shootInterval = 500; //milliseconds
-    private final double hyperSpaceInterval = 1000; //milliseconds
-    private final double immunePeriod = 5000; //milliseconds
+    private static final double shootInterval = 300; //milliseconds
+    private static final double hyperSpaceInterval = 1000; //milliseconds
+    private static final double immunePeriod = 5000; //milliseconds
     //maintain arrays of double coordinates to maintain accuracy
     private final ArrayList<Double> xpointsDouble = new ArrayList<>();
     private final ArrayList<Double> ypointsDouble = new ArrayList<>();
@@ -116,9 +116,8 @@ public class Ship {
             translate(0, -(GamePanel.HEIGHT + sideLength));
         }
 
-        //shoot bullets
+        //shoot bullets: max 5 ono the screen at a time, max 1 shot per 0.3 seconds
         if (canShoot && GamePanel.bullets.size() < 5) {
-            //can't have more than 5 bullets on the screen
             if ((System.nanoTime() - lastShot) / 1000000 > shootInterval) {
                 fireSound.play();
                 GamePanel.bullets.add(new Bullet(ship.xpoints[0], ship.ypoints[0], angle));
@@ -128,7 +127,7 @@ public class Ship {
             }
         }
 
-        //hyperspace
+        //hyperspace: max once per second
         if (canHyperSpace && (System.nanoTime() - lastHyperSpace) / 1000000 > hyperSpaceInterval) {
             vx = 0;
             vy = 0;
@@ -143,6 +142,7 @@ public class Ship {
         }
         ship = new Polygon(ship.xpoints, ship.ypoints, ship.npoints);
 
+        //check if immunity expired
         if ((System.nanoTime() - spawnTime) / 1000000 > immunePeriod) {
             isImmune = false;
         }
@@ -150,6 +150,7 @@ public class Ship {
     }
 
     private void translate(double dx, double dy) {
+        //translate the points and the centre by dx and dy
         for (int i = 0; i < ship.npoints; ++i) {
             xpointsDouble.set(i, xpointsDouble.get(i) + dx);
             ship.xpoints[i] = (int) Math.round(xpointsDouble.get(i));
@@ -161,6 +162,7 @@ public class Ship {
     }
 
     public Point[] getPoints() {
+        //returns the points as well as the center
         Point[] points = new Point[ship.npoints + 1];
         for (int i = 0; i < ship.npoints; ++i) {
             points[i] = new Point(ship.xpoints[i], ship.ypoints[i]);
@@ -187,14 +189,14 @@ public class Ship {
 
     public void draw(Graphics g) {
         if (isThrusting) {
+            //draw flame if thrusting
             g.setColor(Color.RED);
             g.fillOval((ship.xpoints[1] + ship.xpoints[2]) / 2 - 5, (ship.ypoints[1] + ship.ypoints[2]) / 2 - 5, 10, 10);
         }
-//        if (!isImmune) g.setColor(Color.GREEN);
-//        else g.setColor(Color.BLUE);
         g.setColor(Color.GREEN);
         g.fillPolygon(ship);
         if (isImmune) {
+            //draw red border if immune
             g.setColor(Color.RED);
             g.drawPolygon(ship);
         }

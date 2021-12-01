@@ -6,6 +6,7 @@ public class HighScore {
     private static PrintWriter output;
 
     public static int getHighScore() {
+        //returns the high score
         try {
             input = new Scanner(new BufferedReader(new FileReader("highScore.txt")));
             int ret = (input.hasNextInt() ? input.nextInt() : 0);
@@ -17,6 +18,7 @@ public class HighScore {
     }
 
     public static String getHighScorer() {
+        //get the name of the high scorer
         try {
             input = new Scanner(new BufferedReader(new FileReader("highScorer.txt")));
             String ret = (input.hasNext() ? input.nextLine() : "Anonymous Player");
@@ -28,6 +30,7 @@ public class HighScore {
     }
 
     public static void updateHighScore(int score, String name) {
+        //update the high score and high scorer
         try {
             if (getHighScore() < score) {
                 output = new PrintWriter(new BufferedWriter(new FileWriter("highScore.txt")));

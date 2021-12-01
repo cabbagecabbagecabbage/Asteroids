@@ -2,6 +2,11 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.io.File;
 
+/*
+code from Mr.Mackenzie
+I just added the loop method
+*/
+
 public class SoundEffect {
     private Clip c;
 
@@ -20,6 +25,7 @@ public class SoundEffect {
     }
 
     public void loop() {
+        //loop indefinitely, for thrust sound
         c.loop(Clip.LOOP_CONTINUOUSLY);
     }
 

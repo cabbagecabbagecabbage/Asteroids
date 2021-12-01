@@ -21,7 +21,7 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
     private final boolean[] keys = new boolean[KeyEvent.KEY_LAST + 1];
     private final Timer timer;
     private final Image backgroundImage = new ImageIcon("background/OuterSpace.jpg").getImage();
-    private final String name = JOptionPane.showInputDialog("Enter a nickname (Cancel to play anonymously)");
+    private String name;
     private final SoundEffect[] asteroidBangs = {new SoundEffect("sounds/bangLarge.wav"),
             new SoundEffect("sounds/bangMedium.wav"), new SoundEffect("sounds/bangSmall.wav")};
     private int screen = MENU;
@@ -43,6 +43,7 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
     }
 
     private void genAsteroid() {
+        //generates asteroids according to level
         while (curAsteroidCount < level * asteroidsPerLevel) {
             asteroids.add(new Asteroid());
             ++curAsteroidCount;
@@ -50,13 +51,15 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
     }
 
     private void genAlien() {
-        if ((System.nanoTime() - lastAlienGen) / 1000000 > alienGenInterval && aliens.size() < level / 2) {
+        //generates aliens periodically, max 1 at a time
+        if ((System.nanoTime() - lastAlienGen) / 1000000 > alienGenInterval && aliens.size() == 0) {
             aliens.add(new Alien(1));
             lastAlienGen = System.nanoTime();
         }
     }
 
     public void moveObjects() {
+        //move ship
         if (ship.move(keys)) {
             if (respawn()) {
                 resetGame();
@@ -87,6 +90,7 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
     }
 
     private void resetGame() {
+        //clear all objects, update high score, change screen
         bullets.clear();
         asteroids.clear();
         aliens.clear();
@@ -102,6 +106,7 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
     }
 
     private boolean respawn() {
+        //respawn player
         --lives;
         if (lives == 0) {
             //dead
@@ -112,9 +117,9 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
     }
 
     private void asteroidSplit(Asteroid asteroid, int curx, int cury) {
+        //large and medium asteroids break down into 2 smaller asteroids
+        //spawn at contact point
         if (asteroid.getType() != Asteroid.SMALL) {
-            //break down into 2 smaller asteroids
-            //spawn at contact point
             asteroids.add(new Asteroid(asteroid.getType() + 1, curx, cury));
             asteroids.add(new Asteroid(asteroid.getType() + 1, curx, cury));
         }
@@ -122,6 +127,7 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
     }
 
     public boolean checkCollisions() {
+        //ignore collisions with player if it is immune
         if (!ship.isImmune()) {
             //check player - asteroid collision, returns true if collided
             for (int i = 0; i < asteroids.size() && !ship.isImmune(); ++i) {
@@ -195,7 +201,7 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
             }
         }
         //check bullet - asteroid collision
-        //since we replace destroyed with 2 more, just move the iterator
+        //we replace destroyed with 2 more at the end; move the iterator
         for (int i = 0; i < asteroids.size(); ++i) {
             for (int j = 0; j < bullets.size(); ++j) {
                 if (asteroids.get(i).isHitBy(bullets.get(j))) {
@@ -220,7 +226,14 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
         } catch (Exception ignored) {
         }
 
-        if (screen == GAME) {
+        if (screen == MENU){
+            for (Asteroid asteroid: asteroids){
+                asteroid.move();
+            }
+            if (asteroids.size() < 10){
+                asteroids.add(new Asteroid());
+            }
+        } else if (screen == GAME) {
             if (checkCollisions()) {
                 resetGame();
                 return;
@@ -233,7 +246,6 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
                 curAsteroidCount = 0;
                 ++level;
             }
-
             moveObjects();
             genAsteroid();
             if (level >= 2) {
@@ -290,9 +302,13 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
     public void mousePressed(MouseEvent event) {
         if (screen == MENU) {
             if (menu.playButton.hovered(mousePosition)) {
+                //get player name
+                name = JOptionPane.showInputDialog("Enter a nickname (Cancel to play anonymously)");
+                if (name != null && name.equals("")) name = "Anonymous Player";
+                asteroids.clear();
                 screen = GAME;
             }
-            if (menu.helpButton.hovered(mousePosition)) {
+            else if (menu.helpButton.hovered(mousePosition)) {
                 screen = HELP;
             }
         } else if (screen == GAME) {
@@ -317,10 +333,15 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
 
     @Override
     public void paint(Graphics g) {
+        //draw objects
         g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), null);
         if (screen == MENU) {
+            for (Asteroid asteroid : asteroids) {
+                asteroid.draw(g);
+            }
             menu.draw(g, mousePosition);
         } else if (screen == GAME) {
+            //loop through object arrays and draw them
             ship.draw(g);
             for (Bullet bullet : bullets) {
                 bullet.draw(g, Color.YELLOW);

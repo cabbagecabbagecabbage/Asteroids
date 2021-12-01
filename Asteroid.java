@@ -3,10 +3,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Asteroid {
-	/*
-	to do:
-	*/
-
     public static final int BIG = 0, MID = 1, SMALL = 2; // for types
     private static final double rotateAngle = Math.PI / 108;
     private static final Random rand = new Random();
@@ -28,7 +24,6 @@ public class Asteroid {
         //constructor for largest asteroid
         //smaller ones have specified location (see next constructor)
         this.type = BIG;
-
         size = 32;
 
         //generate location outside the screen (casework)
@@ -38,31 +33,26 @@ public class Asteroid {
             //come from top
             y = -size;
             x = rand.nextInt(GamePanel.WIDTH);
-            angle = rand.nextDouble() * Math.PI;
-
         } else if (startLocationCase == LEFT) {
             //come from left
             y = rand.nextInt(GamePanel.HEIGHT);
             x = -size;
-            angle = rand.nextDouble() * Math.PI - Math.PI / 2;
         } else if (startLocationCase == BOTTOM) {
             //come from bottom
             y = GamePanel.HEIGHT + size;
             x = rand.nextInt(GamePanel.WIDTH);
-            angle = rand.nextDouble() * Math.PI + Math.PI;
         } else {
             //come from right
             y = rand.nextInt(GamePanel.HEIGHT);
             x = GamePanel.WIDTH + size;
-            angle = rand.nextDouble() * Math.PI + Math.PI / 2;
         }
-
+        angle = rand.nextDouble()*2*Math.PI;
         //movement variables
         dx = (int) Math.round(speed * Math.cos(angle));
         dy = (int) Math.round(speed * Math.sin(angle));
+        //make sure it comes onto the screen
         if (dx == 0) dx = 1;
         if (dy == 0) dy = 1;
-
         genPolygon();
     }
 
@@ -71,26 +61,24 @@ public class Asteroid {
         this.type = type;
         this.x = x;
         this.y = y;
-
         //initialize properties based on type
         if (type == MID) {
             size = 24;
         } else if (type == SMALL) {
             size = 18;
         }
-
         //generate angle
         angle = rand.nextDouble() * Math.PI * 2;
-
         //movement variables
         dx = (int) Math.round(speed * Math.cos(angle));
         dy = (int) Math.round(speed * Math.sin(angle));
-
         genPolygon();
     }
 
     private void genPolygon() {
         //generate the polygon's points
+        //each point is defined by an angle and a magnitude, relative to the original point
+        //generate the angle and magnitude within a range
         double genAngle = 0;
         int idx = 0;
         while ((genAngle += Math.PI / 6 + rand.nextDouble() * Math.PI / 4) < Math.PI * 2) {
@@ -106,14 +94,9 @@ public class Asteroid {
     }
 
     public void move() {
-        x += dx;
-        y += dy;
-        for (int i = 0; i < asteroid.npoints; ++i) {
-            asteroid.xpoints[i] += dx;
-            asteroid.ypoints[i] += dy;
-            xpointsDouble.set(i, xpointsDouble.get(i) + dx);
-            ypointsDouble.set(i, ypointsDouble.get(i) + dy);
-        }
+        //move the position and all the points by dx and dy
+        translate(dx,dy);
+        //rotate the points about the centre
         for (int i = 0; i < asteroid.npoints; ++i) {
             double newx = xpointsDouble.get(i) - x, newy = (ypointsDouble.get(i) - y);
             double angle = Math.atan2(newy, newx) + rotateAngle;
@@ -123,8 +106,7 @@ public class Asteroid {
             asteroid.xpoints[i] = (int) Math.round(xpointsDouble.get(i));
             asteroid.ypoints[i] = (int) Math.round(ypointsDouble.get(i));
         }
-
-        //wrap around
+        //wrap around the screen
         if (x < -size) {
             translate(GamePanel.WIDTH + size, 0);
         }
@@ -141,6 +123,7 @@ public class Asteroid {
     }
 
     private void translate(double dx, double dy) {
+        //function to translate points by a agiven dx and dy
         for (int i = 0; i < asteroid.npoints; ++i) {
             xpointsDouble.set(i, xpointsDouble.get(i) + dx);
             asteroid.xpoints[i] = (int) Math.round(xpointsDouble.get(i));
@@ -152,8 +135,8 @@ public class Asteroid {
     }
 
     public void draw(Graphics g) {
-        g.setColor(Color.GRAY);
-        g.fillPolygon(asteroid);
+        g.setColor(Color.WHITE);
+        g.drawPolygon(asteroid);
     }
 
     public int getX() {

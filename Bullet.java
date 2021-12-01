@@ -1,8 +1,8 @@
 import java.awt.*;
 
 public class Bullet {
-    private final double scalar = 8;
-    private final int size = 3;
+    private static final double speed = 8;
+    private static final int size = 3;
     //movement
     private final double vx, vy;
     private final double maxDist = 500;
@@ -14,8 +14,8 @@ public class Bullet {
     public Bullet(int x, int y, double angle) {
         this.x = x;
         this.y = y;
-        this.vx = Math.cos(angle) * scalar;
-        this.vy = Math.sin(angle) * scalar;
+        this.vx = Math.cos(angle) * speed;
+        this.vy = Math.sin(angle) * speed;
     }
 
     public int getX() {
@@ -27,8 +27,10 @@ public class Bullet {
     }
 
     public void move() {
+        //move the position
         x += vx;
         y += vy;
+        //wrap around the screen
         if (x < -size) {
             x = GamePanel.WIDTH + size;
         }
@@ -43,6 +45,7 @@ public class Bullet {
         }
         curDist += Math.hypot(vx, vy);
         if (curDist > maxDist) {
+            //expire after a certain distance
             expired = true;
         }
     }

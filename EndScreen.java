@@ -2,11 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class EndScreen {
-    private final Image title = new ImageIcon("text/title.png").getImage();
+    private static final Image title = new ImageIcon("text/title.png").getImage();
     /*
     to do: add title
     */
-    public Button playButton, menuButton;
+    public static Button playButton, menuButton;
 
     public EndScreen() {
         playButton = new Button(330, 270, 140, 70);
@@ -14,6 +14,7 @@ public class EndScreen {
     }
 
     public void draw(Graphics g, Point mousePosition, int playerScore, String name) {
+        //title
         g.drawImage(title, 280, 100, 240, 72, null);
 
         //play button

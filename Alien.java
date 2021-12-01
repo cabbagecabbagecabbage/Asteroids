@@ -4,15 +4,15 @@ import java.util.Random;
 
 public class Alien {
     private static final Random rand = new Random();
-    private final double speed = 2;
-    private final double shootInterval = 1000; //milliseconds
+    private static final double speed = 2;
+    private static final double shootInterval = 1000; //milliseconds
     private final int width, height;
     private final Rectangle rect;
     private final Image img;
     private int x, y;
     private double angle;
-    private int dx, dy;
-    private double lastShot = System.nanoTime();
+    private int vx, vy;
+    private double lastShot = System.nanoTime(); //used for limiting shooting speed
 
     public Alien(int type) {
         if (type == 1) {
@@ -33,60 +33,63 @@ public class Alien {
             //come from top
             y = -height;
             x = rand.nextInt(GamePanel.WIDTH);
-            angle = rand.nextDouble() * Math.PI;
         } else if (startLocationCase == LEFT) {
             //come from left
             y = rand.nextInt(GamePanel.HEIGHT);
             x = -width;
-            angle = rand.nextDouble() * Math.PI - Math.PI / 2;
         } else if (startLocationCase == BOTTOM) {
             //come from bottom
             y = GamePanel.HEIGHT;
             x = rand.nextInt(GamePanel.WIDTH);
-            angle = rand.nextDouble() * Math.PI + Math.PI;
         } else if (startLocationCase == RIGHT) {
             //come from right
             y = rand.nextInt(GamePanel.HEIGHT);
             x = GamePanel.WIDTH;
-            angle = rand.nextDouble() * Math.PI + Math.PI / 2;
         }
-        dx = (int) Math.round(speed * Math.cos(angle));
-        dy = (int) Math.round(speed * Math.sin(angle));
-        if (dx == 0) dx = 1;
-        if (dy == 0) dy = 1;
+        angle = rand.nextDouble()*2*Math.PI;
+        //calculate vx and vy
+        vx = (int) Math.round(speed * Math.cos(angle));
+        vy = (int) Math.round(speed * Math.sin(angle));
+        if (vx == 0) vx = 1;
+        if (vy == 0) vy = 1;
 
         rect = new Rectangle(x, y, width, height);
     }
 
     public void move() {
-        //randomized movement
+        //randomized movement: change direction with 1/25 probability
         if (rand.nextDouble() < 0.04) {
             angle = rand.nextDouble() * Math.PI;
-            dx = (int) Math.round(speed * Math.cos(angle));
-            dy = (int) Math.round(speed * Math.sin(angle));
+            vx = (int) Math.round(speed * Math.cos(angle));
+            vy = (int) Math.round(speed * Math.sin(angle));
         }
-
-        x += dx;
-        y += dy;
+        x += vx;
+        y += vy;
         rect.setLocation(x, y);
 
-        //wrap around
+        //wrap around the screen
         if (x < -width) {
+            //left to right
             x += GamePanel.WIDTH + width;
             rect.setLocation(x, y);
         }
         if (x > GamePanel.WIDTH) {
+            //right to left
             x -= GamePanel.WIDTH;
             rect.setLocation(x, y);
         }
         if (y < -height) {
+            //top to bottom
             y += GamePanel.HEIGHT + height;
             rect.setLocation(x, y);
         }
         if (y > GamePanel.HEIGHT) {
+            //bottom to top
             y -= GamePanel.HEIGHT;
             rect.setLocation(x, y);
         }
+
+        //shooting bullets periodically
         if ((System.nanoTime() - lastShot) / 1000000 > shootInterval) {
             GamePanel.alienBullets.add(new Bullet(x + width / 2, y + height / 2, Math.atan2(GamePanel.ship.getY() - y, GamePanel.ship.getX() - x)));
             lastShot = System.nanoTime();

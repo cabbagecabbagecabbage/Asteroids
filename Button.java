@@ -2,9 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Button {
-    /*
-    to do: add text to buttons
-    */
     private final Rectangle buttonRect;
     private final Image buttonImage, hoveredImage;
 
@@ -15,6 +12,7 @@ public class Button {
     }
 
     public void draw(Graphics g, Point mousePosition) {
+        //draw depending on whether the mouse is hovering over it
         g.drawImage((hovered(mousePosition) ? hoveredImage : buttonImage),
                 buttonRect.x,
                 buttonRect.y,
