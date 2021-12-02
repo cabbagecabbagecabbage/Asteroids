@@ -6,6 +6,11 @@ import java.util.ArrayList;
 class GamePanel extends JPanel implements KeyListener, ActionListener, MouseListener {
     public static final int MENU = 0, GAME = 1, ENDSCREEN = 2, HELP = 3;
     public static final int WIDTH = 800, HEIGHT = 600;
+    private static final int asteroidsPerLevel = 3;
+    private static final double alienGenInterval = 10000; //milliseconds
+    private static final Image backgroundImage = new ImageIcon("background/OuterSpace.jpg").getImage();
+    private static final SoundEffect[] asteroidBangs = {new SoundEffect("sounds/bangLarge.wav"),
+            new SoundEffect("sounds/bangMedium.wav"), new SoundEffect("sounds/bangSmall.wav")};
     public static int level = 1;
     public static Menu menu = new Menu();
     public static EndScreen endscreen = new EndScreen();
@@ -16,13 +21,8 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
     public static ArrayList<Alien> aliens = new ArrayList<>();
     public static ArrayList<Bullet> alienBullets = new ArrayList<>();
     public static Font f = new Font("Berlin Sans FB", Font.PLAIN, 18);
-    private final int asteroidsPerLevel = 2;
-    private final double alienGenInterval = 10000; //milliseconds
     private final boolean[] keys = new boolean[KeyEvent.KEY_LAST + 1];
     private final Timer timer;
-    private final Image backgroundImage = new ImageIcon("background/OuterSpace.jpg").getImage();
-    private final SoundEffect[] asteroidBangs = {new SoundEffect("sounds/bangLarge.wav"),
-            new SoundEffect("sounds/bangMedium.wav"), new SoundEffect("sounds/bangSmall.wav")};
     private String name;
     private int screen = MENU;
     private Point mousePosition = new Point();
