@@ -3,9 +3,6 @@ import java.awt.*;
 
 public class EndScreen {
     private static final Image title = new ImageIcon("text/title.png").getImage();
-    /*
-    to do: add title
-    */
     public static Button playButton, menuButton;
 
     public EndScreen() {

@@ -1,3 +1,9 @@
+/*
+* Author: Rayton Chen
+* (Game Template from Mr. McKenzie)
+* ICS4U Simple Game Assignment - Asteroids
+* */
+
 import javax.swing.*;
 
 public class Asteroids extends JFrame {

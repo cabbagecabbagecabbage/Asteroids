@@ -3,7 +3,7 @@ import javax.sound.sampled.Clip;
 import java.io.File;
 
 /*
-code from Mr.Mackenzie
+code from Mr.McKenzie
 I just added the loop method
 */
 
