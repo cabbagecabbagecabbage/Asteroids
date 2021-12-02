@@ -16,10 +16,10 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
     public static EndScreen endscreen = new EndScreen();
     public static HelpScreen helpScreen = new HelpScreen();
     public static Ship ship;
-    public static ArrayList<Bullet> bullets = new ArrayList<>();
-    public static ArrayList<Asteroid> asteroids = new ArrayList<>();
-    public static ArrayList<Alien> aliens = new ArrayList<>();
-    public static ArrayList<Bullet> alienBullets = new ArrayList<>();
+    public static ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+    public static ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
+    public static ArrayList<Alien> aliens = new ArrayList<Alien>();
+    public static ArrayList<Bullet> alienBullets = new ArrayList<Bullet>();
     public static Font f = new Font("Berlin Sans FB", Font.PLAIN, 18);
     private final boolean[] keys = new boolean[KeyEvent.KEY_LAST + 1];
     private final Timer timer;

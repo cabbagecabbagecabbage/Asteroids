@@ -9,8 +9,8 @@ public class Asteroid {
     private final double speed = 2 * Math.pow(1.1, GamePanel.level);
     private final int type;
     //maintain arrays of double coordinates to prevent distortion
-    private final ArrayList<Double> xpointsDouble = new ArrayList<>();
-    private final ArrayList<Double> ypointsDouble = new ArrayList<>();
+    private final ArrayList<Double> xpointsDouble = new ArrayList<Double>();
+    private final ArrayList<Double> ypointsDouble = new ArrayList<Double>();
     private Polygon asteroid = new Polygon();
     //location of center
     private int x, y;

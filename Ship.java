@@ -14,8 +14,8 @@ public class Ship {
     public static SoundEffect thrustSound = new SoundEffect("sounds/thrust.wav");
     private final double spawnTime;
     //maintain arrays of double coordinates to maintain accuracy
-    private final ArrayList<Double> xpointsDouble = new ArrayList<>();
-    private final ArrayList<Double> ypointsDouble = new ArrayList<>();
+    private final ArrayList<Double> xpointsDouble = new ArrayList<Double>();
+    private final ArrayList<Double> ypointsDouble = new ArrayList<Double>();
     private boolean isThrusting = false;
     private boolean canShoot = false;
     private boolean canHyperSpace = false;
