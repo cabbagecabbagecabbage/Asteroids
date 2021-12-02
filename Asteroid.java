@@ -46,7 +46,7 @@ public class Asteroid {
             y = rand.nextInt(GamePanel.HEIGHT);
             x = GamePanel.WIDTH + size;
         }
-        angle = rand.nextDouble()*2*Math.PI;
+        angle = rand.nextDouble() * 2 * Math.PI;
         //movement variables
         dx = (int) Math.round(speed * Math.cos(angle));
         dy = (int) Math.round(speed * Math.sin(angle));
@@ -95,7 +95,7 @@ public class Asteroid {
 
     public void move() {
         //move the position and all the points by dx and dy
-        translate(dx,dy);
+        translate(dx, dy);
         //rotate the points about the centre
         for (int i = 0; i < asteroid.npoints; ++i) {
             double newx = xpointsDouble.get(i) - x, newy = (ypointsDouble.get(i) - y);

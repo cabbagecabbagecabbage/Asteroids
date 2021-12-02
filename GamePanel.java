@@ -10,7 +10,7 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
     public static Menu menu = new Menu();
     public static EndScreen endscreen = new EndScreen();
     public static HelpScreen helpScreen = new HelpScreen();
-    public static Ship ship = new Ship();
+    public static Ship ship;
     public static ArrayList<Bullet> bullets = new ArrayList<>();
     public static ArrayList<Asteroid> asteroids = new ArrayList<>();
     public static ArrayList<Alien> aliens = new ArrayList<>();
@@ -21,9 +21,9 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
     private final boolean[] keys = new boolean[KeyEvent.KEY_LAST + 1];
     private final Timer timer;
     private final Image backgroundImage = new ImageIcon("background/OuterSpace.jpg").getImage();
-    private String name;
     private final SoundEffect[] asteroidBangs = {new SoundEffect("sounds/bangLarge.wav"),
             new SoundEffect("sounds/bangMedium.wav"), new SoundEffect("sounds/bangSmall.wav")};
+    private String name;
     private int screen = MENU;
     private Point mousePosition = new Point();
     private int curAsteroidCount = 0;
@@ -146,8 +146,8 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
                 if (ship.isImmune()) break;
                 for (Point p : ship.getPoints()) {
                     if (alien.contains(p.x, p.y)) {
+                        asteroidBangs[0].play();
                         if (respawn()) {
-                            asteroidBangs[0].play();
                             return true;
                         }
                     }
@@ -158,8 +158,8 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
             for (Bullet alienBullet : alienBullets) {
                 if (ship.isImmune()) break;
                 if (ship.contains(alienBullet.getX(), alienBullet.getY())) {
+                    asteroidBangs[0].play();
                     if (respawn()) {
-                        asteroidBangs[0].play();
                         return true;
                     }
                 }
@@ -226,11 +226,11 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
         } catch (Exception ignored) {
         }
 
-        if (screen == MENU){
-            for (Asteroid asteroid: asteroids){
+        if (screen == MENU) {
+            for (Asteroid asteroid : asteroids) {
                 asteroid.move();
             }
-            if (asteroids.size() < 10){
+            if (asteroids.size() < 10) {
                 asteroids.add(new Asteroid());
             }
         } else if (screen == GAME) {
@@ -267,7 +267,7 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
             sReleased = true;
         }
         if (key == KeyEvent.VK_W) {
-            ship.isThrusting = false;
+            ship.setThrusting(false);
         }
         keys[key] = false;
     }
@@ -277,7 +277,7 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
         int key = keyEvent.getKeyCode();
         keys[key] = true;
         if (sReleased && key == KeyEvent.VK_S) {
-            ship.canHyperSpace = true;
+            ship.setHyperSpacing(true);
             sReleased = false;
         }
     }
@@ -302,26 +302,32 @@ class GamePanel extends JPanel implements KeyListener, ActionListener, MouseList
     public void mousePressed(MouseEvent event) {
         if (screen == MENU) {
             if (menu.playButton.hovered(mousePosition)) {
+                asteroidBangs[2].play();
                 //get player name
                 name = JOptionPane.showInputDialog("Enter a nickname (Cancel to play anonymously)");
                 if (name != null && name.equals("")) name = "Anonymous Player";
                 asteroids.clear();
+                ship = new Ship();
                 screen = GAME;
-            }
-            else if (menu.helpButton.hovered(mousePosition)) {
+            } else if (menu.helpButton.hovered(mousePosition)) {
+                asteroidBangs[2].play();
                 screen = HELP;
             }
         } else if (screen == GAME) {
-            ship.canShoot = true;
+            ship.setShooting(true);
         } else if (screen == ENDSCREEN) {
             if (endscreen.playButton.hovered(mousePosition)) {
+                asteroidBangs[2].play();
+                ship = new Ship();
                 screen = GAME;
             }
             if (endscreen.menuButton.hovered(mousePosition)) {
+                asteroidBangs[2].play();
                 screen = MENU;
             }
         } else if (screen == HELP) {
             if (helpScreen.menuButton.hovered(mousePosition)) {
+                asteroidBangs[2].play();
                 screen = MENU;
             }
         }

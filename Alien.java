@@ -5,7 +5,7 @@ import java.util.Random;
 public class Alien {
     private static final Random rand = new Random();
     private static final double speed = 2;
-    private static final double shootInterval = 1000; //milliseconds
+    private static final double shootInterval = 3000; //milliseconds
     private final int width, height;
     private final Rectangle rect;
     private final Image img;
@@ -46,7 +46,7 @@ public class Alien {
             y = rand.nextInt(GamePanel.HEIGHT);
             x = GamePanel.WIDTH;
         }
-        angle = rand.nextDouble()*2*Math.PI;
+        angle = rand.nextDouble() * 2 * Math.PI;
         //calculate vx and vy
         vx = (int) Math.round(speed * Math.cos(angle));
         vy = (int) Math.round(speed * Math.sin(angle));

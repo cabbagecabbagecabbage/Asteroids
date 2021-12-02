@@ -4,21 +4,21 @@ import java.util.ArrayList;
 
 public class Ship {
     private static final SoundEffect fireSound = new SoundEffect("sounds/fire.wav");
-    public static SoundEffect thrustSound = new SoundEffect("sounds/thrust.wav");
     private static final double rotateAngle = Math.PI / 72;
     private static final double accel = 0.20, decel = 0.98;
     private static final double halfTipAngle = Math.PI / 6;
     private static final double sideLength = 20.0;
-    private final double spawnTime;
     private static final double shootInterval = 300; //milliseconds
     private static final double hyperSpaceInterval = 1000; //milliseconds
     private static final double immunePeriod = 5000; //milliseconds
+    public static SoundEffect thrustSound = new SoundEffect("sounds/thrust.wav");
+    private final double spawnTime;
     //maintain arrays of double coordinates to maintain accuracy
     private final ArrayList<Double> xpointsDouble = new ArrayList<>();
     private final ArrayList<Double> ypointsDouble = new ArrayList<>();
-    public boolean isThrusting = false;
-    public boolean canShoot = false;
-    public boolean canHyperSpace = false;
+    private boolean isThrusting = false;
+    private boolean canShoot = false;
+    private boolean canHyperSpace = false;
     private boolean isImmune = true;
     private double posx = 400, posy = 300;
     private double angle = 3 * Math.PI / 2; //radians
@@ -185,6 +185,18 @@ public class Ship {
 
     public boolean isImmune() {
         return isImmune;
+    }
+
+    public void setThrusting(boolean b) {
+        isThrusting = b;
+    }
+
+    public void setShooting(boolean b) {
+        canShoot = b;
+    }
+
+    public void setHyperSpacing(boolean b) {
+        canHyperSpace = b;
     }
 
     public void draw(Graphics g) {

@@ -22,7 +22,7 @@ public class HelpScreen {
         g.drawString("Controls", 30, 210);
         g.drawString("W to thrust, A to turn left, D to turn right, S to hyperspace (teleport to a random location on screen)", 30, 230);
         g.drawString("Hyperspace has a chance of self-destructing the ship - use it carefully (max once per second)!", 30, 250);
-        g.drawString("Each mouse press shoots one bullet from the tip of your ship (max 1 bullet / 0.5 seconds)", 30, 270);
+        g.drawString("Each mouse press shoots one bullet from the tip of your ship (max 1 bullet / 0.3 seconds)", 30, 270);
         g.drawString("Good luck on your mission!", 30, 310);
 
         //menu button

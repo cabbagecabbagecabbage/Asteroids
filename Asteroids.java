@@ -1,12 +1,5 @@
 import javax.swing.*;
 
-/*
-to do:
-COMMENTS
-getters and setters
-reconsider where each method should be
-*/
-
 public class Asteroids extends JFrame {
     GamePanel game = new GamePanel();
 
